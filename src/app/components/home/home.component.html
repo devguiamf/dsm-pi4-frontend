@@ -1,0 +1,18 @@
+<mat-drawer-container class="example-container">
+  <mat-drawer mode="side" opened>
+    <div id="energy">
+      <img routerLink="/home" src="../../../assets/raio.png" width="50px" height="50px" alt="">
+    </div>
+
+    <div id="engine">
+      <mat-icon routerLink="settings" fontIcon="settings"></mat-icon>
+    </div>
+
+    <div id="logOut">
+      <mat-icon (click)="logOut()" >logout</mat-icon>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

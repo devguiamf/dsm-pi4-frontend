@@ -1,0 +1,49 @@
+.example-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  mat-drawer {
+    width: 5vw;
+    background-color: #3f51b5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    #engine{
+      margin-top: 100px;
+      display: flex;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      mat-icon{
+        scale: 1.5;
+      }
+    }
+
+    #logOut {
+      position: fixed;
+      bottom: 5px;
+      left: 1.7vw;
+      color: rgb(255, 129, 129);
+
+      mat-icon:hover{
+        cursor: pointer;
+      }
+    }
+
+    #energy{
+      position: fixed;
+      top: 1vw;
+      left: 0.7vw;
+      cursor: pointer;
+    }
+  }
+
+  mat-drawer-content{
+    padding: 20px;
+    background-color: rgb(188, 188, 188);
+  }
+}
