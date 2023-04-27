@@ -24,8 +24,10 @@ export class UtilService {
     this.toastrService.error(msg)
   }
 
-  createheader(): any{
-    const token: any = this.storage.getToken()
-    // return new HttpHeaders({ 'x-access-token': localStorage.getItem("token") })
-  }
+  // createheader(){
+  //   const token: any = this.storage.getToken()
+
+
+  //   return header
+  // }
 }

@@ -1,5 +1,5 @@
 export const enviremonet = {
   production: false,
-  API_URL: 'http://192.168.10.141:8000'
+  API_URL: 'http://localhost:8000'
 }
 //

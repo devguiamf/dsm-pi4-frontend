@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { StorageService } from 'src/util/storage.service';
 import { UtilService } from 'src/util/util.service';
@@ -24,7 +24,15 @@ export class SettingsComponent implements OnInit {
   }
 
   searchProducts(id: string | null): void{
-    const header = this.utilService.createheader()
+    const token = this.storage.getToken()
+
+    let header = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    console.log(header, 'HEADER');
+    
+
     
     this.settingsService.searchProduct(id, header).pipe(
       catchError(err => {

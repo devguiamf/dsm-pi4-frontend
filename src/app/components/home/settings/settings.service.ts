@@ -12,9 +12,7 @@ export class SettingsService {
     private http: HttpClient
   ) { }
 
-  searchProduct(id: string | null, header: any): Observable<any>{
-    console.log(header, 'header');
-    
+  searchProduct(id: string | null, header: any): Observable<any>{        
     return this.http.get<any>(`${enviremonet.API_URL}/product/${id}`, header )
   }
 }
