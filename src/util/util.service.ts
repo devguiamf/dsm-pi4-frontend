@@ -14,9 +14,7 @@ export class UtilService {
     private storage: StorageService
   ) { }
 
-  showSucess(msg: string){
-    console.log(msg);
-    
+  showSucess(msg: string){    
     this.toastrService.success(msg)
   }
 

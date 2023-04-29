@@ -4,6 +4,8 @@ import { StorageService } from 'src/util/storage.service';
 import { UtilService } from 'src/util/util.service';
 import { SettingsService } from './settings.service';
 import { catchError, of } from 'rxjs';
+import { Product } from 'src/shared/interfaces/product-interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -12,43 +14,41 @@ import { catchError, of } from 'rxjs';
 })
 export class SettingsComponent implements OnInit {
   
+  products: Product[] = []
+  userInfo: any
+
   constructor(
     private utilService: UtilService,
     private http: HttpClient,
     private storage: StorageService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private router: Router
   ){}
 
   ngOnInit(): void {
     this.searchProducts(this.storage.getId())
+    this.searchUser(this.storage.getId())
   }
 
   searchProducts(id: string | null): void{
-    const token = this.storage.getToken()
-
-    let header = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
-    console.log(header, 'HEADER');
-    
-
-    
-    this.settingsService.searchProduct(id, header).pipe(
-      catchError(err => {
-        if(err.error.error == 'Unauthorized'){
-          this.utilService.showError('Sem autorização')
-        }
-        if(err.status !== 401 && err.status !== 404 ){
-          this.utilService.showError('Ops, erro no servidor')
-        }
-        console.log(err);
-        return of([])
+    this.settingsService.searchProduct(id)
+      .subscribe(res => {
+        this.products = res
+        console.log(this.products);
+        
       })
-    )
-    .subscribe(res => {
-      console.log(res);
-    })
-    
+  }
+
+  searchUser(id: string | null){
+    this.settingsService.searchInfosUser(id)
+      .subscribe(res => {
+        this.userInfo = res
+        console.log(res);
+        
+      })
+  }
+
+  goToEditUser(){
+    this.router.navigateByUrl("home/edit-user")
   }
 }

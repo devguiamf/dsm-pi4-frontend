@@ -7,19 +7,28 @@ import { MaterialUIModule } from 'src/shared/material-UI/material-ui.module';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SettingsComponent } from './settings/settings.component';
+import { TextCutPipe } from 'src/shared/pipes/text-cut.pipe';
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
     HomeComponent,
     DashboardComponent,
-    SettingsComponent
+    SettingsComponent,
+    TextCutPipe,
+    EditUserComponent,    
   ],
   imports: [
     CommonModule,
     HomeRoutingModule,
     MaterialUIModule,
-    MatSidenavModule
+    MatSidenavModule,
+    ReactiveFormsModule
+  ],
+  providers: [
+    
   ]
 })
 export class HomeModule { }

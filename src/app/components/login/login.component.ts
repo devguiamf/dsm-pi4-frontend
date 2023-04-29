@@ -35,8 +35,8 @@ export class LoginComponent implements OnInit {
 
   initialForms(){
     this.form = this.fb.group({
-      email: ['gui@gmail.com', [Validators.required, Validators.email]],
-      password: ['123321', [Validators.required, Validators.minLength(6)]]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
 
@@ -69,9 +69,7 @@ export class LoginComponent implements OnInit {
 
   }
 
-  setLocalStorage(user: any){
-    console.log(user);
-    
+  setLocalStorage(user: any){    
     this.storageService.setEmail(user.user)
     this.storageService.setName(user.name)
     this.storageService.setToken(user.token)
