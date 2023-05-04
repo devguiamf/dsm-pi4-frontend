@@ -6,6 +6,8 @@
 
 :root {
   --colorPurple: #640088;
+  --fonte:   font-family: 'Bebas Neue', cursive;
+
 
 }
 
@@ -29,6 +31,7 @@ mat-card{
 
     mat-card-title{
       margin-bottom: 20px;
+      font-size: 2em;
     }
 
     mat-card-subtitle{
@@ -116,6 +119,7 @@ img:nth-child(8){
 }
 
 
+
 @keyframes brilhoRaio {
   50%{
     opacity: 0.1;
@@ -154,3 +158,4 @@ mat-mdc-snack-bar-container .mdc-snackbar__surface {
     height: 55vh;
   }
 }
+

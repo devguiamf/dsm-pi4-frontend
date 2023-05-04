@@ -9,7 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './components/register/register.component';
 import { ToastrModule } from 'ngx-toastr';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +29,9 @@ import { ToastrModule } from 'ngx-toastr';
       positionClass:'toast-top-right'
     })
   ],
-  providers: [],
+  providers: [
+    MatDatepickerModule, MatNativeDateModule
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

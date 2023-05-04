@@ -27,7 +27,7 @@
       position: fixed;
       bottom: 5px;
       left: 1.7vw;
-      color: rgb(255, 129, 129);
+      color: rgb(206, 128, 128);
 
       mat-icon:hover{
         cursor: pointer;
@@ -44,6 +44,6 @@
 
   mat-drawer-content{
     padding: 20px;
-    background-color: rgb(188, 188, 188);
+    background-color: rgb(70, 70, 70);
   }
 }

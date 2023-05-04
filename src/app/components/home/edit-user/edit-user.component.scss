@@ -8,11 +8,11 @@ h4{
     color: #BFBFBF;
 }
 mat-card{
-    height: 400px;
-    background-color: #3F51B5;
+    height: 450px;
+    background-color: #FFFFFF;
 
     mat-card-header{
-        background-color: #26306d;
+        background-color: #3F51B5;
         display: flex;
         justify-content: center;
         
@@ -25,7 +25,7 @@ mat-card{
     }
 
     mat-card-content{
-        background-color: #3F51B5;
+        background-color: #FFFFFF;
 
         .form {
 
@@ -61,7 +61,7 @@ mat-card{
                 button {
                     width: 80%;
                     color: white;
-                    background-color: #26306d;
+                    margin-top: 20px;
                     cursor: pointer;
                 }
             }

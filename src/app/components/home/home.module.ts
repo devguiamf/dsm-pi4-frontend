@@ -10,7 +10,9 @@ import { SettingsComponent } from './settings/settings.component';
 import { TextCutPipe } from 'src/shared/pipes/text-cut.pipe';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { ConsumptionLinesComponent } from './dashboard/consumption-lines/consumption-lines.component';
 
 @NgModule({
   declarations: [
@@ -18,17 +20,21 @@ import { ReactiveFormsModule } from '@angular/forms';
     DashboardComponent,
     SettingsComponent,
     TextCutPipe,
-    EditUserComponent,    
+    EditUserComponent,
+    ConsumptionLinesComponent,
+    
   ],
   imports: [
     CommonModule,
     HomeRoutingModule,
     MaterialUIModule,
     MatSidenavModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule 
   ],
   providers: [
-    
+    MatDatepickerModule, MatNativeDateModule
   ]
 })
 export class HomeModule { }

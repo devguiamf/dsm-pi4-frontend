@@ -26,7 +26,7 @@ body{
             align-items: center;
 
             div{
-                width: 25%;
+                width: 33.3%;
                 text-align: center;
                 color: white;
                 font-size: large;
@@ -39,7 +39,7 @@ body{
             align-items: center;
 
             div{
-                width: 25%;
+                width: 33.3%;
                 text-align: center;
                 font-size: large;
             }
@@ -51,10 +51,6 @@ body{
             #buttons{
                 display: flex;
                 justify-content: space-around;
-
-                button{
-                 
-                }
             }
         }
     }

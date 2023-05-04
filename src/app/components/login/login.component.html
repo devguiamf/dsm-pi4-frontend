@@ -31,8 +31,9 @@
       </div>
       <div id="password">
         <mat-form-field appearance="outline">
-          <mat-label>senha</mat-label>
-          <input formControlName="password" matInput [type]="password">
+          <mat-label>Senha - 6 dígitos</mat-label>
+          <input #input formControlName="password" matInput [type]="password">
+          <mat-hint align="end">{{input.value.length}}/6</mat-hint>
           <mat-icon (click)="password === 'password'? password = 'text': password = 'password' " matSuffix>password</mat-icon>
           <mat-error *ngIf="form.invalid">{{getFormsErros('password')}}</mat-error>
         </mat-form-field>
@@ -41,7 +42,7 @@
         <button [disabled]="form.invalid" mat-raised-button color="primary" type="submit" >Entrar</button>
       </div>
     </form>
-    <h5 (click)="openDialogRegister()" >CADASTRE-SE</h5>
+    <!-- <h5 (click)="openDialogRegister()" >CADASTRE-SE</h5> -->
   </mat-card-content>
 </mat-card>
 

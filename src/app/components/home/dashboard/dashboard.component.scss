@@ -1,31 +1,31 @@
 .card1{
-
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  height: 50vh;
-  width: 100%;
-
- #card4{
-  width: 55%;
-  height: 100%;
- }
-
- #card5{
-  width: 35%;
-  height: 100%;
- }
-}
-
-.card2{
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   margin-bottom: 10vh;
-
-  mat-card{
-    width: 25%;
-    height: 20vh;
-  }
+  width: 50%;
 }
 
+.lines{
+  width: 100%;
+
+  mat-card-header{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    
+    h1{
+      font-size: 4em;
+    }
+    img{
+      display: flex;
+      align-items: center;
+      margin-left:  10px;
+    }
+  }
+
+  mat-card-content{
+    height: 65vh;
+    width: 93%;
+  }
+}

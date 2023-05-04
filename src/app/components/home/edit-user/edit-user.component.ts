@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { StorageService } from 'src/util/storage.service';
 import { UtilService } from 'src/util/util.service';
 
 @Component({
@@ -10,15 +11,17 @@ import { UtilService } from 'src/util/util.service';
 export class EditUserComponent {
   password: string = 'password';
   form!: FormGroup;
-
+  userInfos: any
 
   constructor(
     private fb: FormBuilder,
     private utilService: UtilService,
+    private sotage : StorageService
   ) { }
 
   ngOnInit(): void {
     this.initialForms();
+    this.userInfosStorage()
   }
 
   initialForms(){
@@ -44,6 +47,16 @@ export class EditUserComponent {
       email: this.form.controls['email'].value,
       password: this.form.controls['password'].value,
       name: this.form.controls['name'].value
+    }
+  }
+
+  userInfosStorage(){
+    const NameUser = this.sotage.getName()
+    const Email = this.sotage.getEmail()
+
+    this.userInfos = {
+      NameUser,
+      Email
     }
   }
 }

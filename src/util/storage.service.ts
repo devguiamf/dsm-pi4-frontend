@@ -21,6 +21,14 @@ export class StorageService {
     return localStorage.getItem('id')
   }
 
+  getNameProduct(){
+    return localStorage.getItem('ProductName')
+  }
+
+  getIdProduct(){
+    return localStorage.getItem('ProductId')
+  }
+
   setName(name: string){
     return localStorage.setItem('Name', name)
   }
@@ -35,6 +43,14 @@ export class StorageService {
 
   setId(id: string){
     return localStorage.setItem('id', id)
+  }
+
+  setNameProduct(product: string){
+    return localStorage.setItem('ProductName', product)
+  }
+
+  setIdProduct(UUID: string){
+    return localStorage.setItem('ProductId', UUID)
   }
 
   deleteUserInfos(){

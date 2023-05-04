@@ -59,7 +59,8 @@ export class LoginComponent implements OnInit {
 
     await this.loginService.loginSubbimit(payload).pipe(
       catchError(err => {        
-        this.utilService.showError(err.error.msg)
+        if(err.status === 404 || err.status === 401) this.utilService.showError(err.error.msg)
+        if(err.status !== 404 || err.status === 401) this.utilService.showError('Ops, erro no servidor')
         return throwError(() => err)})
     )
     .subscribe(data => {      

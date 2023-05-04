@@ -1,6 +1,6 @@
-<mat-card>
+<mat-card class="mat-elevation-z6">
     <mat-card-header>
-        <h1 style="color: white;">ALTERAR DADOS</h1>
+        <h1 style="color: white;">ALTERAR DADOS DO USUÁRIO</h1>
     </mat-card-header>
 
     <mat-card-content>
@@ -9,7 +9,7 @@
               <div id="login">
                 <mat-form-field aria-disabled="true" appearance="fill">
                   <mat-label>Digite seu Nome</mat-label>
-                  <input formControlName="name" matInput>
+                  <input [(ngModel)]="userInfos.NameUser" formControlName="name" matInput>
                   <mat-icon matSuffix>person</mat-icon>
                   <mat-error *ngIf="form.invalid">{{getFormsErros('email')}}</mat-error>
                 </mat-form-field>
@@ -17,21 +17,22 @@
               <div id="login">
                 <mat-form-field appearance="fill">
                   <mat-label>Digite seu Email</mat-label>
-                  <input formControlName="email" matInput placeholder="exemplo@email.com">
+                  <input [(ngModel)]="userInfos.Email" formControlName="email" matInput placeholder="exemplo@email.com">
                   <mat-icon matSuffix>email</mat-icon>
                   <mat-error *ngIf="form.invalid">{{getFormsErros('name')}}</mat-error>
                 </mat-form-field>
               </div>
               <div id="password">
                 <mat-form-field appearance="fill">
-                  <mat-label>Nova Senha</mat-label>
-                  <input formControlName="password" matInput [type]="password">
+                  <mat-label>Nova Senha - 6 dígitos</mat-label>
+                  <input #input formControlName="password" maxlength="6" matInput [type]="password">
+                  <mat-hint style="color: white;" align="end">{{input.value.length}}/6</mat-hint>
                   <mat-icon (click)="password === 'password'? password = 'text': password = 'password' " matSuffix>password</mat-icon>
                   <mat-error *ngIf="form.invalid">{{getFormsErros('password')}}</mat-error>
                 </mat-form-field>
               </div>
               <div id="button">
-                <button [disabled]="form.invalid" mat-raised-button type="submit" >Atualizar</button>
+                <button [disabled]="form.invalid" mat-raised-button color="primary" type="submit" >Atualizar</button>
               </div>
             </form>
           </div>
