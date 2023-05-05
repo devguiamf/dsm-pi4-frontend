@@ -10,7 +10,12 @@ import { UtilService } from 'src/util/util.service';
 })
 export class HomeComponent implements OnInit {
 
-
+  state: boolean = false
+  option = [
+    {
+      icon: ''
+    }
+  ]
   constructor(
     private router: Router,
     private storage: StorageService,

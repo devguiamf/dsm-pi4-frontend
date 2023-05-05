@@ -1,13 +1,31 @@
 <mat-drawer-container class="example-container">
   <mat-drawer mode="side" opened>
-    <div id="energy">
+    <!-- <div id="energy">
       <img routerLink="/home" src="../../../assets/raio.png" width="50px" height="50px" alt="">
-    </div>
+    </div> -->
+    <mat-list>
+      <mat-list-item >
+        <mat-icon matListItemIcon>electric_bolt</mat-icon>
+      </mat-list-item>
+    </mat-list>
 
-    <div id="engine">
-      <mat-icon routerLink="settings" fontIcon="settings"></mat-icon>
-    </div>
+    <mat-list>
+      <mat-list-item>
+        <mat-icon [matMenuTriggerFor]="menu" matListItemIcon>bar_chart_4_bars</mat-icon>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="dash-diario">Diário <mat-icon slot="start" fontIcon="today"></mat-icon></button>
+          <button mat-menu-item>Semanal <mat-icon slot="start" fontIcon="date_range"></mat-icon></button>
+          <button mat-menu-item>Mensal <mat-icon slot="start" fontIcon="calendar_month"></mat-icon></button>
+        </mat-menu>
+      </mat-list-item>
+    </mat-list>
 
+    <mat-list>
+      <mat-list-item routerLink="settings" >
+        <mat-icon matListItemIcon>settings</mat-icon>
+      </mat-list-item>
+    </mat-list>
+ 
     <div id="logOut">
       <mat-icon (click)="logOut()" >logout</mat-icon>
     </div>

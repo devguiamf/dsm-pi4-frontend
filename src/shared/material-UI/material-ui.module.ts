@@ -10,6 +10,10 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatListModule} from '@angular/material/list';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [],
@@ -23,7 +27,11 @@ import {MatSelectModule} from '@angular/material/select';
     MatSnackBarModule,
     MatDialogModule,
     MatDatepickerModule,
-    MatSelectModule
+    MatSelectModule,
+    MatMenuModule,
+    MatDividerModule,
+    MatListModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatCardModule,
@@ -34,7 +42,11 @@ import {MatSelectModule} from '@angular/material/select';
     MatSnackBarModule,
     MatDialogModule,
     MatDatepickerModule,
-    MatSelectModule
+    MatSelectModule,
+    MatMenuModule,
+    MatDividerModule,
+    MatListModule,
+    MatProgressSpinnerModule
   ],
   providers: [
 

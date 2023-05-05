@@ -6,44 +6,35 @@
   right: 0;
 
   mat-drawer {
-    width: 5vw;
+    width: 4.5vw;
     background-color: #3f51b5;
     display: flex;
     justify-content: center;
     align-items: center;
-
-    #engine{
-      margin-top: 100px;
-      display: flex;
-      justify-content: center;
-      color: white;
+    
+    mat-list-item{
       cursor: pointer;
+      
       mat-icon{
-        scale: 1.5;
+        color: white;
+        scale: 2;
       }
     }
-
-    #logOut {
-      position: fixed;
-      bottom: 5px;
-      left: 1.7vw;
-      color: rgb(206, 128, 128);
-
-      mat-icon:hover{
-        cursor: pointer;
-      }
-    }
-
-    #energy{
-      position: fixed;
-      top: 1vw;
-      left: 0.7vw;
-      cursor: pointer;
+    mat-list-item:hover{
+      background-color: rgba(255, 255, 255, 0.253);
     }
   }
 
   mat-drawer-content{
     padding: 20px;
     background-color: rgb(70, 70, 70);
+    
+    mat-icon{
+      scale: 2.5;
+      color: white;
+    }
+    mat-icon:hover{
+      cursor: pointer;
+    }
   }
 }

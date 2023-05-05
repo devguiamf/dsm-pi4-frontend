@@ -1,0 +1,56 @@
+<body>
+  <div class="card1">
+    <mat-form-field id="date" appearance="fill">
+      <mat-label>Data do consumo</mat-label>
+      <input (dateInput)="dateSelect($event)" [value]="date" matInput [matDatepicker]="picker">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker  #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo de consumo</mat-label>
+      <mat-select (valueChange)="typeSelect($event)" [value]="types[1].description">
+        <mat-option *ngFor="let type of types" [value]="type.description">
+          {{type.description}}
+          <mat-icon slot="start" [fontIcon]="type.icon"></mat-icon>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="cards">
+    <mat-card id="media">  
+      <h1>Média de gasto em <h2>{{typeConsumption == 'Dinheiro'? types[1].type : types[0].type}}</h2>
+      </h1>
+      <mat-card-content>
+        <div>
+          <strong>
+            {{media}}
+          </strong>
+        </div>
+       
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card id="media">
+      <h1>Desvio Padrão</h1>
+
+      <mat-card-content>
+        <mat-spinner></mat-spinner>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card id="pf">
+      <h1>Previsão para póximo mês</h1>
+      <mat-card-content>
+        <mat-spinner></mat-spinner>
+      </mat-card-content>
+    </mat-card>
+   
+  </div>
+
+  <mat-card class="lines">
+    <canvas #canva style="position: relative; width: 90vw; height:65vh"></canvas>
+  </mat-card>
+
+</body>
