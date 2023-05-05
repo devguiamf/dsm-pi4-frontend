@@ -70,10 +70,7 @@ export class DashboardDiarioComponent implements OnInit, AfterContentInit {
             duration: 500,
             easing: 'linear',
             loop: false
-          
         },
-
-  
         layout: {
           padding: {
             left: 20,
@@ -81,7 +78,7 @@ export class DashboardDiarioComponent implements OnInit, AfterContentInit {
             right: 20,
             top: 20,
           }
-        }
+        },
       }
     })
 

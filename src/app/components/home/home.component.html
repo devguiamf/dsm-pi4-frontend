@@ -4,32 +4,31 @@
       <img routerLink="/home" src="../../../assets/raio.png" width="50px" height="50px" alt="">
     </div> -->
     <mat-list>
-      <mat-list-item >
-        <mat-icon matListItemIcon>electric_bolt</mat-icon>
+      <mat-list-item routerLink="/home" title="Ínicio" >
+        <mat-icon  matListItemIcon>electric_bolt</mat-icon>
       </mat-list-item>
-    </mat-list>
 
-    <mat-list>
-      <mat-list-item>
-        <mat-icon [matMenuTriggerFor]="menu" matListItemIcon>bar_chart_4_bars</mat-icon>
+      <mat-list-item [matMenuTriggerFor]="menu" title="Gráficos">
+        <mat-icon  matListItemIcon>bar_chart_4_bars</mat-icon>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item routerLink="dash-diario">Diário <mat-icon slot="start" fontIcon="today"></mat-icon></button>
-          <button mat-menu-item>Semanal <mat-icon slot="start" fontIcon="date_range"></mat-icon></button>
-          <button mat-menu-item>Mensal <mat-icon slot="start" fontIcon="calendar_month"></mat-icon></button>
+          <button mat-menu-item routerLink="dash-diario">Diário <mat-icon>today</mat-icon></button>
+          <button mat-menu-item>Semanal <mat-icon>date_range</mat-icon></button>
+          <button mat-menu-item>Mensal <mat-icon>calendar_month</mat-icon></button>
         </mat-menu>
       </mat-list-item>
-    </mat-list>
 
-    <mat-list>
-      <mat-list-item routerLink="settings" >
+
+      <mat-list-item  title="Opções" routerLink="settings" >
         <mat-icon matListItemIcon>settings</mat-icon>
       </mat-list-item>
+
+      <mat-list-item id="logout" (click)="logOut()" title="Saír" routerLink="settings" >
+        <mat-icon id="iconLogout" matListItemIcon>logout</mat-icon>
+      </mat-list-item>
     </mat-list>
- 
-    <div id="logOut">
-      <mat-icon (click)="logOut()" >logout</mat-icon>
-    </div>
+
   </mat-drawer>
+
   <mat-drawer-content>
     <router-outlet></router-outlet>
   </mat-drawer-content>
