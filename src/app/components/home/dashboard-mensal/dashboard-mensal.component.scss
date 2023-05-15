@@ -1,0 +1,87 @@
+body{
+
+    height: 950px;
+  
+  .card1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10vh;
+  
+    #date{
+      margin-right: 30px ;
+    }
+  }
+  
+  .cards{
+    display: flex;
+    justify-content: space-evenly;
+  
+    #media{
+      width: 300px;
+      height: 300px;
+      margin-bottom: 50px;
+  
+      h1{
+        text-align: center;
+        margin-top: 20px;
+      }
+  
+      mat-card-content{
+        display: flex;
+        justify-content: center;
+        
+        mat-spinner{
+          margin-top: 50px;
+        }
+  
+        div {
+          strong{
+            font-size: 4em;
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+          }
+        } 
+  
+        h2{
+          margin-top: 25px;
+          text-align: center;
+          font-size: 2em;
+        }
+      }
+    }
+  
+    #pf{
+      width: 500px;
+      height: 300px;
+  
+      h1{
+        text-align: center;
+        margin-top: 20px;
+      }
+  
+      mat-card-content{
+        display: flex;
+        justify-content: center;
+  
+        mat-spinner{
+          margin-top: 50px;
+        }
+      }
+    }
+  }
+  
+  .lines{
+    width: 100%;
+    height: 65vh;
+  
+      h1{
+        font-size: 3em;
+        text-align: center;
+        margin-top: 20px;
+      }
+  }
+  }
+  
+  

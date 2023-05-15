@@ -12,6 +12,9 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { DashboardTempoRealComponent } from './dashboard-tempoReal/dashboard-tempo-real.component';
+import { DashboardMensalComponent } from './dashboard-mensal/dashboard-mensal.component';
+import { PaginaInicialComponent } from './pagina-inicial/pagina-inicial.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     SettingsComponent,
     TextCutPipe,
     EditUserComponent,
+    DashboardTempoRealComponent,
+    DashboardMensalComponent,
+    PaginaInicialComponent,
     
   ],
   imports: [

@@ -1,0 +1,42 @@
+
+<div class="texto">
+    <div class="titulo">
+        <mat-card>
+            <h1>
+                Bem-vindo ao nosso site de monitoramento de energia elétrica!
+            </h1>
+            
+            <mat-card-content>
+                Aqui você encontrará informações valiosas sobre o consumo de energia da sua casa, apresentadas em três tipos de dashboards diferentes: diário, mensal e em tempo real.
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+
+
+<div class="cards">
+    <mat-card routerLink="/home/dash-diario">
+        <mat-icon>today</mat-icon>
+        <h1>Dashboard Diário</h1>
+        <p>
+            O dashboard diário permite que você acompanhe o consumo de energia elétrica da sua casa ao longo do dia, identificando os horários de pico e as situações em que há desperdício de energia.
+        </p>
+    </mat-card>
+    
+    <mat-card routerLink="/home/dash-mensal">
+        <mat-icon>calendar_month</mat-icon>
+        <h1>Dashboard Mensal</h1>
+        <p>
+            Já o dashboard mensal apresenta uma visão geral do consumo de energia elétrica durante o mês, permitindo que você faça uma análise mais detalhada dos seus hábitos de consumo e planeje melhor o seu orçamento. 
+        </p>
+    </mat-card>
+    
+    <mat-card routerLink="/home/dash-tempo-real">
+        <mat-icon>schedule</mat-icon>
+        <h1>Dashboard Tempo Real</h1>
+        <p>
+            E, por fim, o dashboard em tempo real permite que você monitore o consumo de energia elétrica da sua casa a qualquer momento do dia, de forma simples e rápida.
+        </p>
+    </mat-card>
+</div>

@@ -1,0 +1,14 @@
+body {
+    height: 950px;
+
+    .card1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10vh;
+
+        #date {
+            margin-right: 30px;
+        }
+    }
+}

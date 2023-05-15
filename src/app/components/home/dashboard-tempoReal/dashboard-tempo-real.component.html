@@ -1,0 +1,13 @@
+<body>
+    <div class="card1">
+        <mat-form-field appearance="fill">
+          <mat-label>Tipo de consumo</mat-label>
+          <mat-select (valueChange)="typeSelect($event)" [value]="types[1].description">
+            <mat-option *ngFor="let type of types" [value]="type.description">
+              {{type.description}}
+              <mat-icon slot="start" [fontIcon]="type.icon"></mat-icon>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+</body>
