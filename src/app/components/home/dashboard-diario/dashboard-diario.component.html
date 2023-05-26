@@ -9,8 +9,8 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Tipo de consumo</mat-label>
-      <mat-select (valueChange)="typeSelect($event)" [value]="types[1].description">
-        <mat-option *ngFor="let type of types" [value]="type.description">
+      <mat-select (valueChange)="typeSelect($event)" [value]="types.money.description">
+        <mat-option *ngFor="let type of typesArray" [value]="type.description">
           {{type.description}}
           <mat-icon slot="start" [fontIcon]="type.icon"></mat-icon>
         </mat-option>
@@ -20,7 +20,7 @@
 
   <div class="cards">
     <mat-card id="media">  
-      <h1>Média de gasto em <h2>{{typeConsumption == 'Dinheiro - R$'? types[1].type : types[0].type}}</h2>
+      <h1>Média de gasto em <h2>{{typeConsumption == 'Dinheiro - R$'? types.money.type : types.money.type}}</h2>
       </h1>
       <mat-card-content>
         <div>
