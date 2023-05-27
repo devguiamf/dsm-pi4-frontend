@@ -14,6 +14,8 @@ import {
 } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import Chart from 'chart.js/auto';
+import { Consumption } from 'src/shared/interfaces/consumptions.-interface';
+import { StorageService } from 'src/util/storage.service';
 import { DashboardDiario } from './dashboard-diario.service';
 
 @Component({
@@ -27,15 +29,40 @@ export class DashboardDiarioComponent implements OnInit {
   @Inject(MAT_DATE_LOCALE) private _locale: string | undefined = 'pt-BR';
   @ViewChild('canva', { static: true }) element!: ElementRef;
   chartJS!: Chart;
-  date = new Date();
+  date: Date | string = new Date();
+  datetime: Date | string = this.date
   idProduct!: number
+  consumptions!: Consumption | string | null
+
 
   types = {
     energy: { description: 'Energia - KW', value: '1', icon: 'electric_bolt', type: 'Khw' },
     money: { description: `Dinheiro - R$`, value: '2', icon: 'payments', type: 'R$' }
   }
 
+  typeConsumption: string = this.types.money.description;
+
+  constructor(
+    private _adapter: DateAdapter<any>,
+    private dashService: DashboardDiario,
+    private storageService:  StorageService
+  ) { }
   
+  ngOnInit(): void {
+    this._adapter.setLocale('pt-BR');
+    this.getConsumptionsDayli(this.formattedSelectedData);
+    
+    if(this.consumptionsStorage){
+      this.consumptions = this.consumptionsStorage
+    }else{
+      this.getConsumptionsDayli(this.formattedSelectedData)
+    }
+  }
+
+  ngAfterContentInit(): void {
+    this.initChart();
+  }
+
   get typesArray() {
     return Object.values(this.types)
   }
@@ -45,32 +72,29 @@ export class DashboardDiarioComponent implements OnInit {
   }
 
   get formattedSelectedData() {
-    return  formatDate(this.date, 'yyyy/MM/dd', 'en')
+    return  formatDate(this.datetime, 'yyyy/MM/dd', 'en')
   }
 
-  typeConsumption: string = this.types.money.description;
-
-  constructor(
-    private _adapter: DateAdapter<any>,
-    private dashService: DashboardDiario
-  ) { }
-  ngAfterContentInit(): void {
-    // this.initChart();
-  }
-
-  ngOnInit(): void {
-    this._adapter.setLocale(this._locale);
-   
-    this.getConsumptionsDayli(this.formattedSelectedData)
+  get consumptionsStorage(){
+    return this.storageService.getDayliConsumptions()
   }
 
   private getConsumptionsDayli(date: string) {
-    console.log(date);
-    return
-    
-    this.dashService.getConsumptionDay(date, this.ProductId).subscribe(
+    this.dashService.getConsumptionDay(date, this.ProductId).subscribe({
+      next: (value: Consumption) => {
+        this.storageService.setDayliConsumptions(value);
+        
+        if(this.typeConsumption == this.types.energy.description){
+          this.addData(value.consumptionInKw.data);
+          return
+        }
+        this.addData(value.consumptionInMoney.data);
+      },
 
-    )
+      error: (err: Error) =>{
+  
+      }
+    })
   }
 
   initChart() {
@@ -113,24 +137,21 @@ export class DashboardDiarioComponent implements OnInit {
     });
   }
 
-  dateSelect(event: MatDatepickerInputEvent<Date>) {
-    const dateFormat = this._adapter.format(event.value, 'es');
-    console.log(dateFormat);
-    
-    // this.dashService.getConsumptionDay(dateFormat);
+  dateSelect(event: any) {
+    this.datetime = formatDate(event.value, 'yyyy/MM/dd', 'en')
+    this.getConsumptionsDayli(this.formattedSelectedData);
   }
 
   typeSelect(event: string) {
-    console.log(event);
-    // this.chartJS.data.datasets[0].label = event;
-    this.typeConsumption = event
+    this.chartJS.data.datasets[0].label = event;
     
     if (this.chartJS.data.datasets[0].label == 'Dinheiro - R$') {
-      this.typeConsumption = this.types.energy.description
+      this.typeConsumption = this.types.money.description;
     } else {
-      this.typeConsumption = this.types.money.description
+      this.typeConsumption = this.types.energy.description;
     }
-    // this.chartJS.update();
+
+    this.chartJS.update();
   }
 
   addData(newData: any[]) {
