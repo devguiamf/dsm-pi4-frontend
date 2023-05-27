@@ -28,7 +28,6 @@ export class DashboardDiarioComponent implements OnInit {
   @ViewChild('canva', { static: true }) element!: ElementRef;
   chartJS!: Chart;
   date = new Date();
-  datetime = formatDate(new Date(), 'dd/MM/yyyy', 'en');
   idProduct!: number
 
   types = {
@@ -36,10 +35,18 @@ export class DashboardDiarioComponent implements OnInit {
     money: { description: `Dinheiro - R$`, value: '2', icon: 'payments', type: 'R$' }
   }
 
+  
   get typesArray() {
     return Object.values(this.types)
   }
 
+  get ProductId(): number {
+    return this.idProduct
+  }
+
+  get formattedSelectedData() {
+    return  formatDate(this.date, 'yyyy/MM/dd', 'en')
+  }
 
   typeConsumption: string = this.types.money.description;
 
@@ -53,26 +60,17 @@ export class DashboardDiarioComponent implements OnInit {
 
   ngOnInit(): void {
     this._adapter.setLocale(this._locale);
-
+   
+    this.getConsumptionsDayli(this.formattedSelectedData)
   }
 
-  private getConsumptionsDayli() {
-
-    const idProduct = this.getProductId()
-    const date = this.getDateSelected()
-
-    this.dashService.getConsumptionDay(date, idProduct).subscribe(
+  private getConsumptionsDayli(date: string) {
+    console.log(date);
+    return
+    
+    this.dashService.getConsumptionDay(date, this.ProductId).subscribe(
 
     )
-  }
-
-
-  getProductId(): number {
-    return this.idProduct
-  }
-
-  getDateSelected() {
-    return this._adapter.format(this.date, 'dd/MM/aaaa')
   }
 
   initChart() {
@@ -116,19 +114,23 @@ export class DashboardDiarioComponent implements OnInit {
   }
 
   dateSelect(event: MatDatepickerInputEvent<Date>) {
-    const dateFormat = this._adapter.format(event.value, 'dd/MM/aaaa');
+    const dateFormat = this._adapter.format(event.value, 'es');
+    console.log(dateFormat);
+    
     // this.dashService.getConsumptionDay(dateFormat);
   }
 
-  typeSelect(event: any) {
-    this.chartJS.data.datasets[0].label = event;
-
+  typeSelect(event: string) {
+    console.log(event);
+    // this.chartJS.data.datasets[0].label = event;
+    this.typeConsumption = event
+    
     if (this.chartJS.data.datasets[0].label == 'Dinheiro - R$') {
-      this.typeConsumption = event
+      this.typeConsumption = this.types.energy.description
     } else {
-      this.typeConsumption = event
+      this.typeConsumption = this.types.money.description
     }
-    this.chartJS.update();
+    // this.chartJS.update();
   }
 
   addData(newData: any[]) {
