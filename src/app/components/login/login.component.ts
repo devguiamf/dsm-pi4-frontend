@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
 
   password: string = 'password';
   form!: FormGroup;
+  state: boolean = false
 
 
   constructor(
@@ -35,8 +36,8 @@ export class LoginComponent implements OnInit {
 
   initialForms(){
     this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      email: ['adrielbarborges@gmail.com', [Validators.required, Validators.email]],
+      password: ['admin123', [Validators.required, Validators.minLength(6)]]
     })
   }
 
@@ -51,30 +52,29 @@ export class LoginComponent implements OnInit {
   }
 
   async login(){
-
+    this.state = true
     const payload ={
       email: this.form.controls['email'].value,
       password: this.form.controls['password'].value,
     }
 
     await this.loginService.loginSubbimit(payload).pipe(
-      catchError(err => {        
+      catchError(err => {
         if(err.status === 404 || err.status === 401) this.utilService.showError(err.error.msg)
         if(err.status !== 404 || err.status === 401) this.utilService.showError('Ops, erro no servidor')
         return throwError(() => err)})
     )
-    .subscribe(data => {      
+    .subscribe(data => {
       this.setLocalStorage(data)
       this.singIn()
     })
 
   }
 
-  setLocalStorage(user: any){    
-    this.storageService.setEmail(user.user)
-    this.storageService.setName(user.name)
-    this.storageService.setToken(user.token)
-    this.storageService.setId(user.id)
+  setLocalStorage(user: any){
+    this.storageService.set('login', user.user)
+    this.storageService.set('name', user.name)
+    this.storageService.set('token', user.token)
   }
 
   singIn(){

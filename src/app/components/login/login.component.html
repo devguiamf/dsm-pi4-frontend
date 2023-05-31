@@ -39,7 +39,12 @@
         </mat-form-field>
       </div>
       <div id="button">
-        <button [disabled]="form.invalid" mat-raised-button color="primary" type="submit" >Entrar</button>
+        <button [disabled]="form.invalid || state" mat-raised-button color="primary" type="submit" >
+          <mat-spinner *ngIf="state"></mat-spinner>
+          <span *ngIf="!state">
+            Entrar
+          </span>
+        </button>
       </div>
     </form>
     <!-- <h5 (click)="openDialogRegister()" >CADASTRE-SE</h5> -->

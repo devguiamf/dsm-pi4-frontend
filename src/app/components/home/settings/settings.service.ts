@@ -16,9 +16,9 @@ export class SettingsService {
     private utilService: UtilService
   ) { }
 
-  searchProduct(id: string | null): Observable<any>{    
-    let token = this.storage.getToken()
-    
+  searchProduct(id: string | null): Observable<any>{
+    let token = this.storage.get('token')
+
     return this.http.get<any>(`${enviremonet.API_URL}/product/${id}`, {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -38,8 +38,8 @@ export class SettingsService {
   }
 
   searchInfosUser(id: string | null){
-    let token = this.storage.getToken()
-    
+    let token = this.storage.get('token')
+
     return this.http.get<any>(`${enviremonet.API_URL}/user/${id}`, {
       headers: {
         'Authorization': `Bearer ${token}`

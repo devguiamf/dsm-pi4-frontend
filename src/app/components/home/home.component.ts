@@ -11,11 +11,8 @@ import { UtilService } from 'src/util/util.service';
 export class HomeComponent implements OnInit {
 
   state: boolean = false
-  option = [
-    {
-      icon: ''
-    }
-  ]
+  hours: number = new Date().getHours()
+
   constructor(
     private router: Router,
     private storage: StorageService,
@@ -23,7 +20,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.weelcome(this.storage.getName())
+    this.weelcome(this.storage.get('name'))
   }
 
   weelcome(name: string | null): void {
@@ -31,9 +28,7 @@ export class HomeComponent implements OnInit {
   }
 
   logOut(){
-    this.storage.deleteUserInfos()
-    setTimeout(() => {
-      this.router.navigate(['login'])
-    }, 500)
+    this.storage.clear()
+    this.router.navigate(['login'])
   }
 }

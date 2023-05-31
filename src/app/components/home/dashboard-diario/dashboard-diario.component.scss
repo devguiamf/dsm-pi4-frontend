@@ -5,11 +5,27 @@ body{
 .card1{
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-bottom: 10vh;
 
-  #date{
-    margin-right: 30px ;
+  div{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 10vh;
+    width: 70vw;
+    height: 100px;
+
+    button{
+      height: 50px;
+      width: 130px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: -21px;
+
+      mat-spinner{
+        scale: 0.28;
+      }
+    }
   }
 }
 
@@ -30,7 +46,7 @@ body{
     mat-card-content{
       display: flex;
       justify-content: center;
-      
+
       mat-spinner{
         margin-top: 50px;
       }
@@ -42,7 +58,7 @@ body{
           justify-content: center;
           margin-top: 50px;
         }
-      } 
+      }
 
       h2{
         margin-top: 25px;

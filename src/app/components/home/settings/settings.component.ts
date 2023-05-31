@@ -16,7 +16,7 @@ import { EditUserComponent } from '../edit-user/edit-user.component';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-  
+
   products: any = []
   userInfo: any = []
   liberado: boolean = false
@@ -36,36 +36,36 @@ export class SettingsComponent implements OnInit {
   }
 
   ProductInfoStorage(){
-    const NameProduct = this.storage.getNameProduct()
-    const UUID = this.storage.getIdProduct()
-    
+    const NameProduct = this.storage.get('nameProduct')
+    const UUID = this.storage.get('uuidProduct')
+
     if(!NameProduct || !UUID){
-      this.searchProducts(this.storage.getId())
+      // this.searchProducts(this.storage.get('idUser'))
       return
-    } 
-    else{      
+    }
+    else{
       this.products = []
       this.products.push({
         NameProduct,
         UUID
-      })      
+      })
     }
   }
 
   searchProducts(id: string | null): void{
     this.settingsService.searchProduct(id)
-      .subscribe(async res => {               
-        await this.storage.setIdProduct(res[0].UUID)
-        await this.storage.setNameProduct(res[0].NameProduct)
+      .subscribe(async res => {
+        await this.storage.set('uuidPorduct', res[0].UUID)
+        await this.storage.set('nameProduct', res[0].NameProduct)
         this.ProductInfoStorage()
       })
   }
 
   userInfoStorage(){
-    const Email = this.storage.getEmail()
-    const Name = this.storage.getName()
-    
-    if(!Email || !Name) this.searchUser(this.storage.getId())
+    const Email = this.storage.get('email')
+    const Name = this.storage.get('name')
+
+    // if(!Email || !Name) this.searchUser(this.storage.getId())
 
     if(this.userInfo.length === 0){
       this.userInfo.push({
@@ -77,10 +77,10 @@ export class SettingsComponent implements OnInit {
 
   searchUser(id: string | null){
     this.settingsService.searchInfosUser(id)
-      .subscribe(res => {        
-        this.storage.setName(res[0].Name)
-        this.storage.setEmail(res[0].Login)    
-        this.userInfoStorage()   
+      .subscribe(res => {
+        this.storage.set('name', res[0].Name)
+        this.storage.set('email', res[0].Login)
+        this.userInfoStorage()
       })
   }
 
@@ -92,3 +92,4 @@ export class SettingsComponent implements OnInit {
     // this.router.navigateByUrl("home/edit-user")
   }
 }
+

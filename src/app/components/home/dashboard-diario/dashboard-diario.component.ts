@@ -17,6 +17,8 @@ import Chart from 'chart.js/auto';
 import { Consumption } from 'src/shared/interfaces/consumptions.-interface';
 import { StorageService } from 'src/util/storage.service';
 import { DashboardDiario } from './dashboard-diario.service';
+import { UtilService } from 'src/util/util.service';
+import { Product } from 'src/shared/interfaces/product-interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,11 +31,14 @@ export class DashboardDiarioComponent implements OnInit {
   @Inject(MAT_DATE_LOCALE) private _locale: string | undefined = 'pt-BR';
   @ViewChild('canva', { static: true }) element!: ElementRef;
   chartJS!: Chart;
-  date: Date | string = new Date();
-  datetime: Date | string = this.date
-  idProduct!: number
-  consumptions!: Consumption | string | null
-
+  date!: Date | string;
+  datetime!: Date | string;
+  idProduct!: number;
+  consumptions!: Consumption;
+  avearag!: number;
+  mode!: number;
+  products!: Product[];
+  state: boolean = false
 
   types = {
     energy: { description: 'Energia - KW', value: '1', icon: 'electric_bolt', type: 'Khw' },
@@ -45,14 +50,31 @@ export class DashboardDiarioComponent implements OnInit {
   constructor(
     private _adapter: DateAdapter<any>,
     private dashService: DashboardDiario,
-    private storageService:  StorageService
-  ) { }
-  
+    private storageService:  StorageService,
+    private utilService: UtilService
+  ) {
+    this.date = new Date();
+    this.datetime = this.date
+  }
+
   ngOnInit(): void {
     this._adapter.setLocale('pt-BR');
+
+    // if(this.dateSelectedInStorage.length > 0){
+    //   console.log(this.dateSelectedInStorage);
+
+    //   this.date = this.dateSelectedInStorage
+    //   this.datetime = this.date
+    // }else{
+    //   console.log('else');
+
+    //   this.date = new Date();
+    //   this.datetime = this.date
+    // }
+
     this.getConsumptionsDayli(this.formattedSelectedData);
-    
-    if(this.consumptionsStorage){
+
+    if(this.consumptionsStorage.length > 0){
       this.consumptions = this.consumptionsStorage
     }else{
       this.getConsumptionsDayli(this.formattedSelectedData)
@@ -76,32 +98,55 @@ export class DashboardDiarioComponent implements OnInit {
   }
 
   get consumptionsStorage(){
-    return this.storageService.getDayliConsumptions()
+    return JSON.parse(this.storageService.get('dayliConsumprtions') || '')
+  }
+
+  // get dateSelectedInStorage(){
+  //   return this.storageService.get('dayliDateSelected' || '')
+  // }
+
+  get productsInStorage(){
+    return JSON.parse(this.storageService.get('products') || '')
+  }
+
+  set productsInStore(products: object) {
+    this.storageService.set('products', JSON.stringify(products))
   }
 
   private getConsumptionsDayli(date: string) {
     this.dashService.getConsumptionDay(date, this.ProductId).subscribe({
       next: (value: Consumption) => {
-        this.storageService.setDayliConsumptions(value);
-        
+        this.state = false
+        this.storageService.set('dayliConsumprtions', JSON.stringify(value));
+
         if(this.typeConsumption == this.types.energy.description){
-          this.addData(value.consumptionInKw.data);
+          this.addDataInChart(value.consumptionInKw.data);
           return
         }
-        this.addData(value.consumptionInMoney.data);
+        this.addDataInChart(value.consumptionInMoney.data);
       },
 
       error: (err: Error) =>{
-  
+        this.utilService.showError(err.message)
+        console.log(err);
       }
     })
   }
 
-  initChart() {
+  onClick(){
+    if(!this.formattedSelectedData || this.formattedSelectedData.length == 0) return this.utilService.showError('Selecione uma data para buscar')
+    if(this.formattedSelectedData) {
+      this.state = true
+      this.getConsumptionsDayli(this.formattedSelectedData)
+      return
+    }
+  }
+
+  private initChart() {
     this.chartJS = new Chart(this.element.nativeElement, {
       type: 'line',
       data: {
-        labels: Array.from({ length: 24 }, (i: number) => {
+        labels: Array.from({ length: 24 }, (_, i: number) => {
           const hour = i + 1
           const isTwoDigits = hour.toString().length > 1
           const formattedHour = isTwoDigits ? `${hour}:00` : `0${hour}:00`
@@ -143,18 +188,26 @@ export class DashboardDiarioComponent implements OnInit {
   }
 
   typeSelect(event: string) {
+
     this.chartJS.data.datasets[0].label = event;
-    
+
     if (this.chartJS.data.datasets[0].label == 'Dinheiro - R$') {
+      // this.addDataInChart(this.consumptions.consumptionInMoney.data)
+      // this.avearag = this.consumptions.consumptionInMoney.averag
+      // this.mode = this.consumptions.consumptionInMoney.mode
       this.typeConsumption = this.types.money.description;
     } else {
+      // this.addDataInChart(this.consumptions.consumptionInKw.data)
+      // this.avearag = this.consumptions.consumptionInKw.averag
+      // this.mode = this.consumptions.consumptionInKw.mode
       this.typeConsumption = this.types.energy.description;
     }
 
     this.chartJS.update();
   }
 
-  addData(newData: any[]) {
-    // this.chartJS.update();
+  private addDataInChart(newData: any[]) {
+    this.chartJS.data.datasets[0].data = newData
+    this.chartJS.update()
   }
 }

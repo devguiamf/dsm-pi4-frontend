@@ -81,9 +81,16 @@ mat-card{
 
       button{
         width: 60%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }
+}
+
+mat-spinner{
+  scale: 0.28;
 }
 
 img{

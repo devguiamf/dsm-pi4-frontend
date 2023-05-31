@@ -1,34 +1,47 @@
 <body>
   <div class="card1">
-    <mat-form-field id="date" appearance="fill">
-      <mat-label>Data do consumo</mat-label>
-      <input (dateInput)="dateSelect($event)" [value]="date" matInput [matDatepicker]="picker">
-      <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
-      <mat-datepicker  #picker></mat-datepicker>
-    </mat-form-field>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Data do consumo</mat-label>
+        <input readonly="true" (dateInput)="dateSelect($event)" [value]="date" matInput [matDatepicker]="picker">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Tipo de consumo</mat-label>
-      <mat-select (valueChange)="typeSelect($event)" [value]="types.money.description">
-        <mat-option *ngFor="let type of typesArray" [value]="type.description">
-          {{type.description}}
-          <mat-icon slot="start" [fontIcon]="type.icon"></mat-icon>
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Tipo de consumo</mat-label>
+        <mat-select (valueChange)="typeSelect($event)" [value]="types.money.description">
+          <mat-option *ngFor="let type of typesArray" [value]="type.description">
+            {{type.description}}
+            <mat-icon slot="start" [fontIcon]="type.icon"></mat-icon>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Produtos</mat-label>
+        <mat-select (valueChange)="typeSelect($event)" [value]="">
+          <mat-option *ngFor="let product of products" [value]="product.NameProduct">
+            {{product.NameProduct}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button (click)="onClick()" [disabled]="state" mat-raised-button color="primary">
+        <mat-spinner *ngIf="state"></mat-spinner>
+        <span>Buscar</span>
+      </button>
+    </div>
   </div>
 
   <div class="cards">
-    <mat-card id="media">  
-      <h1>Média de gasto em <h2>{{typeConsumption === 'Dinheiro - R$' ? types.money.type : types.money.type}}</h2>
+    <mat-card id="media">
+      <h1>Média de gasto em <h2>{{typeConsumption == 'Dinheiro - R$' ? types.money.type : types.energy.type}}</h2>
       </h1>
       <mat-card-content>
-        <div>
-          <strong>
-         
-          </strong>
-        </div>
-       
+
+        <mat-spinner *ngIf="mode"></mat-spinner>
+
       </mat-card-content>
     </mat-card>
 
@@ -36,7 +49,7 @@
       <h1>Desvio Padrão</h1>
 
       <mat-card-content>
-        <mat-spinner></mat-spinner>
+        <mat-spinner *ngIf=""></mat-spinner>
       </mat-card-content>
     </mat-card>
 
@@ -46,7 +59,7 @@
         <mat-spinner></mat-spinner>
       </mat-card-content>
     </mat-card>
-   
+
   </div>
 
   <mat-card class="lines">
