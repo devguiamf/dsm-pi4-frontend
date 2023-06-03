@@ -8,6 +8,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { DashboardDiarioComponent } from './dashboard-diario/dashboard-diario.component';
 import { SettingsComponent } from './settings/settings.component';
 import { TextCutPipe } from 'src/shared/pipes/text-cut.pipe';
+import { DecimalCutPipe } from 'src/shared/pipes/decimal-cut-pipe';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -22,11 +23,12 @@ import { PaginaInicialComponent } from './pagina-inicial/pagina-inicial.componen
     DashboardDiarioComponent,
     SettingsComponent,
     TextCutPipe,
+    DecimalCutPipe,
     EditUserComponent,
     DashboardTempoRealComponent,
     DashboardMensalComponent,
     PaginaInicialComponent,
-    
+
   ],
   imports: [
     CommonModule,
@@ -35,7 +37,7 @@ import { PaginaInicialComponent } from './pagina-inicial/pagina-inicial.componen
     MatSidenavModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule 
+    MatNativeDateModule
   ],
   providers: [
     MatDatepickerModule, MatNativeDateModule
