@@ -1,13 +1,16 @@
 export interface Consumption {
-    consumptionInKw : {
-        data : number[],
-        averag: number,
-        mode: number
-    },
 
-    consumptionInMoney: {
-        data: number[],
-        averag: number,
-        mode: number
+  consumptionsInKw: {
+    average: number
+    data : number[]
+    max: number
+    mode: number[]
+  }
+
+  consumptionsInMoney: {
+      average: number
+      data : number[]
+      max: number
+      mode: number[]
     }
 }

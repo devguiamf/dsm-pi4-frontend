@@ -21,8 +21,8 @@
       <mat-form-field appearance="fill">
         <mat-label>Produtos</mat-label>
         <mat-select (valueChange)="typeSelect($event)" [value]="">
-          <mat-option *ngFor="let product of products" [value]="product.NameProduct">
-            {{product.NameProduct}}
+          <mat-option *ngFor="let product of products" [value]="product.name">
+            {{product.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>

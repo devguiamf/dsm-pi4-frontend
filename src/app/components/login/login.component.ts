@@ -72,9 +72,12 @@ export class LoginComponent implements OnInit {
   }
 
   setLocalStorage(user: any){
+    console.log(user);
+
     this.storageService.set('login', user.user)
     this.storageService.set('name', user.name)
     this.storageService.set('token', user.token)
+    this.storageService.set('id', user.id)
   }
 
   singIn(){

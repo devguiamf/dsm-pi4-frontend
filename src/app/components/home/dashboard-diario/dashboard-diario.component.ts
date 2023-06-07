@@ -1,7 +1,6 @@
 import { formatDate } from '@angular/common';
 
 import {
-  AfterContentInit,
   Component,
   ElementRef,
   Inject,
@@ -12,13 +11,12 @@ import {
   DateAdapter,
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import Chart from 'chart.js/auto';
 import { Consumption } from 'src/shared/interfaces/consumptions.-interface';
 import { StorageService } from 'src/util/storage.service';
-import { DashboardDiario } from './dashboard-diario.service';
 import { UtilService } from 'src/util/util.service';
 import { Product } from 'src/shared/interfaces/product-interface';
+import { HomeService } from '../home.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -36,7 +34,7 @@ export class DashboardDiarioComponent implements OnInit {
   idProduct!: number;
   consumptions!: Consumption;
   avearag!: number;
-  mode!: number;
+  mode!: number[];
   products!: Product[];
   state: boolean = false
 
@@ -49,7 +47,7 @@ export class DashboardDiarioComponent implements OnInit {
 
   constructor(
     private _adapter: DateAdapter<any>,
-    private dashService: DashboardDiario,
+    private homeService: HomeService,
     private storageService:  StorageService,
     private utilService: UtilService
   ) {
@@ -94,7 +92,7 @@ export class DashboardDiarioComponent implements OnInit {
   }
 
   get formattedSelectedData() {
-    return  formatDate(this.datetime, 'yyyy/MM/dd', 'en')
+    return  formatDate(this.datetime, 'yyyy-MM-dd', 'en')
   }
 
   get consumptionsStorage(){
@@ -114,16 +112,19 @@ export class DashboardDiarioComponent implements OnInit {
   }
 
   private getConsumptionsDayli(date: string) {
-    this.dashService.getConsumptionDay(date, this.ProductId).subscribe({
+    console.log(date, 'date');
+
+    this.homeService.getConsumptionDay(date, this.ProductId).subscribe({
       next: (value: Consumption) => {
+
         this.state = false
         this.storageService.set('dayliConsumprtions', JSON.stringify(value));
 
         if(this.typeConsumption == this.types.energy.description){
-          this.addDataInChart(value.consumptionInKw.data);
+          this.addDataInChart(value.consumptionsInKw.data);
           return
         }
-        this.addDataInChart(value.consumptionInMoney.data);
+        this.addDataInChart(value.consumptionsInMoney.data);
       },
 
       error: (err: Error) =>{
@@ -192,14 +193,14 @@ export class DashboardDiarioComponent implements OnInit {
     this.chartJS.data.datasets[0].label = event;
 
     if (this.chartJS.data.datasets[0].label == 'Dinheiro - R$') {
-      // this.addDataInChart(this.consumptions.consumptionInMoney.data)
-      // this.avearag = this.consumptions.consumptionInMoney.averag
-      // this.mode = this.consumptions.consumptionInMoney.mode
+      this.addDataInChart(this.consumptions.consumptionsInMoney.data)
+      this.avearag = this.consumptions.consumptionsInMoney.average
+      this.mode = this.consumptions.consumptionsInMoney.mode
       this.typeConsumption = this.types.money.description;
     } else {
-      // this.addDataInChart(this.consumptions.consumptionInKw.data)
-      // this.avearag = this.consumptions.consumptionInKw.averag
-      // this.mode = this.consumptions.consumptionInKw.mode
+      this.addDataInChart(this.consumptions.consumptionsInKw.data)
+      this.avearag = this.consumptions.consumptionsInKw.average
+      this.mode = this.consumptions.consumptionsInKw.mode
       this.typeConsumption = this.types.energy.description;
     }
 
