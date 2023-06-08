@@ -12,6 +12,8 @@ export class HomeComponent implements OnInit {
 
   state: boolean = false
   hours: number = new Date().getHours()
+  themeIcon = 'light_mode'
+
 
   constructor(
     private router: Router,
@@ -20,11 +22,16 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.weelcome(this.storage.get('name'))
+
   }
 
-  weelcome(name: string | null): void {
-
+  toggleMode(){
+    document.body.classList.toggle('dark-theme')
+    if(this.themeIcon == 'light_mode'){
+      this.themeIcon = 'dark_mode'
+    }else{
+      this.themeIcon = 'light_mode'
+    }
   }
 
   logOut(){

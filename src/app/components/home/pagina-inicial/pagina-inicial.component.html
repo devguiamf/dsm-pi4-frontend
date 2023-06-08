@@ -5,15 +5,15 @@
       </mat-card>
     </div>
   </div> -->
-  <h1>{{msg}}, {{userName}}</h1>
+  <h1 class="wellcome">{{msg}}, {{userName}}</h1>
 
   <div class="headerFixed">
     <div class="tabHearder">
-      <div routerLinkActive="activeTabsDay" class="tabs" [routerLink]="'dash-diario'">
+      <div routerLinkActive="activeTabsDay" [routerLink]="'dash-diario'"  class="tabs" (click)="onClickHourly()">
         <mat-icon>today</mat-icon>
         Diário
       </div>
-      <div routerLinkActive="activeTabsDay" class="tabs" [routerLink]="'dash-mensal'">
+      <div routerLinkActive="activeTabsDay" class="tabs" [routerLink]="'dash-mensal'" (click)="onClickMonth()">
         <mat-icon>calendar_month</mat-icon>
         Mensal
       </div>
@@ -41,7 +41,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" *ngIf="products">
         <mat-label>Produtos</mat-label>
         <mat-select (valueChange)="typeSelect($event)" [value]="products[0].id">
           <mat-option *ngFor="let product of products" [value]="product.id">
@@ -50,7 +50,7 @@
         </mat-select>
       </mat-form-field>
 
-      <button (click)="onClick()" [disabled]="stateButtonUpdate" mat-raised-button>
+      <button (click)="onClickUpdateData()" [disabled]="stateButtonUpdate" mat-raised-button>
         <mat-spinner *ngIf="stateButtonUpdate"></mat-spinner>
         <mat-icon *ngIf="!stateButtonUpdate">update</mat-icon>
         <span *ngIf="!stateButtonUpdate">Atualizar</span>

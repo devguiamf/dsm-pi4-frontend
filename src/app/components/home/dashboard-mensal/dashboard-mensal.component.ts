@@ -1,8 +1,9 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 import Chart from 'chart.js/auto';
-import { Consumption } from 'src/shared/interfaces/consumptions.-interface';
+import { Consumption, Types } from 'src/shared/interfaces/consumptions.-interface';
 import { StorageService } from 'src/util/storage.service';
+import { PaginaInicialComponent } from '../pagina-inicial/pagina-inicial.component';
 
 @Component({
   selector: 'app-dashboard-mensal',
@@ -23,6 +24,7 @@ export class DashboardMensalComponent implements OnInit {
   max!: number;
   stateButtonUpdate: boolean = false
   stateValuesConsumptions: boolean = true
+  type!: string
   types = {
     energy: { description: 'Energia - KW', value: '1', icon: 'electric_bolt', type: 'kHw' },
     money: { description: `Dinheiro - R$`, value: '2', icon: 'payments', type: 'R$' }
@@ -30,12 +32,32 @@ export class DashboardMensalComponent implements OnInit {
 
   typeConsumption: string = this.types.money.description;
 
-  constructor() {
+  constructor(
+    private initialPage: PaginaInicialComponent
+  ) {
     this.date = new Date()
     this.daysOfMonth = this.getAmountDaysNoMonths(this.date.getFullYear(), this.date.getMonth()+1)
   }
 
   ngOnInit(): void {
+    this.initialPage.consumptionsMonth.subscribe({
+      next: (value: any) => {
+        this.avearag = value.average;
+        this.max = value.max;
+        this.addDataInChart(value.data);
+        this.stateValuesConsumptions = false;
+      }
+    })
+
+    this.initialPage.type.subscribe({
+      next: (value: Types) => {
+        this.typeConsumption = value.description;
+        this.type = value.type;
+        this.stateValuesConsumptions = false;
+        this.chartJS.data.datasets[0].label = this.typeConsumption
+        this.chartJS.update()
+      }
+    })
   }
 
   ngAfterContentInit(): void {

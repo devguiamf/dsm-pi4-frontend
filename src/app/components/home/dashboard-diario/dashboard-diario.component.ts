@@ -11,15 +11,10 @@ import {
   DateAdapter,
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import Chart from 'chart.js/auto';
-import { Consumption } from 'src/shared/interfaces/consumptions.-interface';
+import { Consumption, Types } from 'src/shared/interfaces/consumptions.-interface';
 import { StorageService } from 'src/util/storage.service';
-import { UtilService } from 'src/util/util.service';
-import { Product } from 'src/shared/interfaces/product-interface';
-import { catchError, of, throwError } from 'rxjs';
-import { DashboardService } from '../home.service';
-
+import { PaginaInicialComponent } from '../pagina-inicial/pagina-inicial.component';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard-diario.component.html',
@@ -28,37 +23,51 @@ import { DashboardService } from '../home.service';
 })
 export class DashboardDiarioComponent implements OnInit {
 
-  @Inject(MAT_DATE_LOCALE) private _locale: string | undefined = 'pt-BR';
   @ViewChild('canva', { static: true }) element!: ElementRef;
   chartJS!: Chart;
-  idProduct!: number;
   consumptions!: Consumption;
   avearag!: number;
   max!: number;
   stateButtonUpdate: boolean = false
   stateValuesConsumptions: boolean = true
-  types = {
-    energy: { description: 'Energia - KW', value: '1', icon: 'electric_bolt', type: 'kHw' },
-    money: { description: `Dinheiro - R$`, value: '2', icon: 'payments', type: 'R$' }
-  }
+  type!: string
 
-  typeConsumption: string = this.types.money.description;
 
+  typeConsumption!: string
   constructor(
-    private _adapter: DateAdapter<any>,
     private storageService: StorageService,
+    private initialPage: PaginaInicialComponent
   ) {}
 
   ngOnInit(): void {
-    this._adapter.setLocale('pt-BR');
+    this.initialPage.consumptionsHourly.subscribe({
+      next: (value: any) => {
+        this.stateValuesConsumptions = false;
+        this.avearag = value.average;
+        this.max = value.max;
+        this.addDataInChart(value.data);
+      }
+    })
+
+    this.initialPage.type.subscribe({
+      next: (value: Types) => {
+        this.stateValuesConsumptions = false;
+        this.typeConsumption = value.description;
+        this.type = value.type;
+        this.chartJS.data.datasets[0].label = this.typeConsumption
+        this.chartJS.update()
+      }
+    })
+
+    this.initialPage.stateLoading.subscribe({
+      next: (value: boolean) => {
+        this.stateValuesConsumptions = value
+      }
+    })
   }
 
   ngAfterContentInit(): void {
     this.initChart();
-  }
-
-  get typesArray() {
-    return Object.values(this.types)
   }
 
   get consumptionsStorage() {
@@ -82,7 +91,7 @@ export class DashboardDiarioComponent implements OnInit {
             data: [],
             borderWidth: 4,
             borderColor: 'rgb(58, 148, 74)',
-            backgroundColor: 'white',
+            backgroundColor: '#fff',
             borderCapStyle: 'round',
             fill: false,
           },
@@ -107,8 +116,15 @@ export class DashboardDiarioComponent implements OnInit {
   }
 
   private addDataInChart(newData: any[]) {
+    console.log(newData, 'CHART');
+
     this.chartJS.data.datasets[0].data = newData
     this.chartJS.update()
     return
   }
+
+  ngOnDestroy(): void {
+
+  }
+
 }

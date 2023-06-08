@@ -1,33 +1,43 @@
 .body{
+  .wellcome{
+    color: var(--text-primary)
+  }
 
   .headerFixed{
 
     .tabHearder{
       width: 30% ;
       height: 3em;
-      background-color: #FFF ;
+      background-color: var(--body-card) ;
       display: flex;
       justify-content: space-evenly;
       border-radius: 50px;
+      background-color: #fff;
+
 
       .activeTabsDay{
-        background-color: #3f51b5;
+        background-color: var(--primary);
+        border: none;
         color: #FFF;
+        border: solid 1px var(--primary);
+        width: 100%;
+        height: 100%;
       }
 
       .tabs{
         width: 100%;
         height: 100%;
-        border-radius: 50px;
+        border-radius: 20px;
         display: flex;
         justify-content: space-evenly;
         align-items: center;
         text-align: center;
+
       }
     }
 
     .tabs:hover{
-        color: #3f51b5;
+      color: #3f51b5;
       cursor: pointer;
 
     }
@@ -46,7 +56,7 @@
       button {
         margin-top: -18px;
         height: 50px;
-        background-color: #3f51b5;
+        background-color: var(--primary);
         color: #FFF;
 
         mat-spinner{

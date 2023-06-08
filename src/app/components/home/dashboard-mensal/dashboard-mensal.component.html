@@ -6,18 +6,18 @@
   <div class="cards">
     <mat-card id="media">
       <h2>Média de gasto</h2>
-      <mat-card-content>
+      <mat-card-content *ngIf="avearag">
         <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
-        <h3 *ngIf="!stateValuesConsumptions">{{typeConsumption == 'Dinheiro - R$' ? types.money.type : types.energy.type}} : {{avearag | decimalCut }}</h3>
+        <h3 *ngIf="!stateValuesConsumptions">{{typeConsumption == 'Dinheiro - R$' ? types.money.type : types.energy.type}} {{avearag | decimalCut }}</h3>
       </mat-card-content>
     </mat-card>
 
     <mat-card id="media">
       <h2>Maior gasto do dia</h2>
 
-      <mat-card-content>
+      <mat-card-content *ngIf="max">
         <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
-        <h3 *ngIf="!stateValuesConsumptions">{{typeConsumption == 'Dinheiro - R$' ? types.money.type : types.energy.type}} : {{max | decimalCut}}</h3>
+        <h3 *ngIf="!stateValuesConsumptions">{{typeConsumption == 'Dinheiro - R$' ? types.money.type : types.energy.type}} {{max | decimalCut}}</h3>
       </mat-card-content>
     </mat-card>
 

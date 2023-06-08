@@ -16,10 +16,10 @@ const routes: Routes = [
       {path: 'settings', component: SettingsComponent},
       {path: 'edit-user', component: EditUserComponent},
       {path: 'inicial', component: PaginaInicialComponent, children: [
+        {path: '', redirectTo: 'dash-diario', pathMatch: 'full'},
         {path: 'dash-diario', pathMatch: 'full', component: DashboardDiarioComponent},
-        {path: 'dash-tempo-real', component: DashboardTempoRealComponent},
         {path: 'dash-mensal', component: DashboardMensalComponent},
-        {path: '', redirectTo: 'dash-diario', pathMatch: 'full'}
+        {path: 'dash-tempo-real', component: DashboardTempoRealComponent}
       ]},
       {
         path: '**',

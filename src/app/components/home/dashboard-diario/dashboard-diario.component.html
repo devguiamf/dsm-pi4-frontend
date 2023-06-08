@@ -8,7 +8,7 @@
       <h2>Média de gasto</h2>
       <mat-card-content>
         <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
-        <h3 *ngIf="!stateValuesConsumptions">{{typeConsumption == 'Dinheiro - R$' ? types.money.type : types.energy.type}} : {{avearag | decimalCut }}</h3>
+        <h3 *ngIf="!stateValuesConsumptions">{{type}} {{avearag | decimalCut }}</h3>
       </mat-card-content>
     </mat-card>
 
@@ -17,7 +17,7 @@
 
       <mat-card-content>
         <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
-        <h3 *ngIf="!stateValuesConsumptions">{{typeConsumption == 'Dinheiro - R$' ? types.money.type : types.energy.type}} : {{max | decimalCut}}</h3>
+        <h3 *ngIf="!stateValuesConsumptions">{{type}}  {{max | decimalCut}}</h3>
       </mat-card-content>
     </mat-card>
 

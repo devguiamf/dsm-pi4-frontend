@@ -1,22 +1,14 @@
 <mat-drawer-container class="example-container">
   <mat-drawer mode="side" opened>
-    <!-- <div id="energy">
-      <img routerLink="/home" src="../../../assets/raio.png" width="50px" height="50px" alt="">
-    </div> -->
+
     <mat-list>
       <mat-list-item routerLink="/home" title="Ínicio" >
         <mat-icon  matListItemIcon>electric_bolt</mat-icon>
       </mat-list-item>
 
-      <!-- <mat-list-item [matMenuTriggerFor]="menu" title="Gráficos">
-        <mat-icon  matListItemIcon>bar_chart_4_bars</mat-icon>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item routerLink="dash-diario">Diário <mat-icon>today</mat-icon></button>
-          <button mat-menu-item routerLink="dash-mensal">Mensal <mat-icon>calendar_month</mat-icon></button>
-          <button mat-menu-item routerLink="dash-tempo-real">Tempo Real <mat-icon>schedule</mat-icon></button>
-        </mat-menu>
-      </mat-list-item> -->
-
+      <mat-list-item (click)="toggleMode()" title="modo escuro" >
+        <mat-icon  matListItemIcon>{{themeIcon}}</mat-icon>
+      </mat-list-item>
 
       <mat-list-item  title="Opções"  [matMenuTriggerFor]="settings" >
         <mat-icon matListItemIcon>settings</mat-icon>
@@ -29,10 +21,6 @@
           <mat-icon id="iconLogout">logout</mat-icon> Sair
         </button>
       </mat-menu>
-
-
-
-
 
     </mat-list>
 

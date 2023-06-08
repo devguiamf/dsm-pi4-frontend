@@ -11,3 +11,9 @@ export interface Consumption {
         max: number
     }
 }
+
+export interface Types{
+  description: string
+  icon: string,
+  type: string
+}
