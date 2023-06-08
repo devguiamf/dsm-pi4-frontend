@@ -1,44 +1,12 @@
 <body>
   <div class="card1">
-    <div>
-      <mat-form-field appearance="fill">
-        <mat-label>Data do consumo</mat-label>
-        <input readonly="true" (dateInput)="dateSelect($event)" [value]="date" matInput [matDatepicker]="picker">
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Tipo de consumo</mat-label>
-        <mat-select (valueChange)="typeSelect($event)" [value]="types.money.description">
-          <mat-option *ngFor="let type of typesArray" [value]="type.description">
-            {{type.description}}
-            <mat-icon slot="start" [fontIcon]="type.icon"></mat-icon>
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Produtos</mat-label>
-        <mat-select (valueChange)="typeSelect($event)" [value]="">
-          <mat-option *ngFor="let product of products" [value]="product.NameProduct">
-            {{product.NameProduct}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <button (click)="onClick()" [disabled]="stateButtonUpdate" mat-raised-button color="primary">
-        <mat-spinner *ngIf="stateButtonUpdate"></mat-spinner>
-        <span>Atualizar</span>
-      </button>
-    </div>
   </div>
 
   <div class="cards">
     <mat-card id="media">
       <h2>Média de gasto</h2>
       <mat-card-content>
-
         <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
         <h3 *ngIf="!stateValuesConsumptions">{{typeConsumption == 'Dinheiro - R$' ? types.money.type : types.energy.type}} : {{avearag | decimalCut }}</h3>
       </mat-card-content>
@@ -56,14 +24,21 @@
     <mat-card id="pf">
       <h2>Previsão para póximo dia</h2>
       <mat-card-content>
-        <mat-spinner *ngIf="!stateValuesConsumptions"></mat-spinner>
+        <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card id="pf">
+      <h2>Consumo Total</h2>
+      <mat-card-content>
+        <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
       </mat-card-content>
     </mat-card>
 
   </div>
 
   <mat-card class="lines">
-    <h1>Consumo Diário</h1>
+    <h1>Consumo Diário </h1>
     <canvas #canva style="position: relative; width: 90vw; height:65vh"></canvas>
   </mat-card>
 

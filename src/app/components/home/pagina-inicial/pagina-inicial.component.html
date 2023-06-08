@@ -1,26 +1,76 @@
-
-<div class="texto">
+<div class="body">
+  <!-- <div class="texto">
     <div class="titulo">
-        <mat-card>
-            <h1>
-                Bem-vindo ao nosso site de monitoramento de energia elétrica!
-            </h1>
-
-            <mat-card-content>
-                Aqui você encontrará informações valiosas sobre o consumo de energia da sua casa, apresentadas em três tipos de dashboards diferentes: diário, mensal e em tempo real.
-            </mat-card-content>
-        </mat-card>
+      <mat-card>
+      </mat-card>
     </div>
+  </div> -->
+  <h1>{{msg}}, {{userName}}</h1>
+
+  <div class="headerFixed">
+    <div class="tabHearder">
+      <div routerLinkActive="activeTabsDay" class="tabs" [routerLink]="'dash-diario'">
+        <mat-icon>today</mat-icon>
+        Diário
+      </div>
+      <div routerLinkActive="activeTabsDay" class="tabs" [routerLink]="'dash-mensal'">
+        <mat-icon>calendar_month</mat-icon>
+        Mensal
+      </div>
+      <div routerLinkActive="activeTabsDay" class="tabs">
+        <mat-icon>schedule</mat-icon>
+        Realtime
+      </div>
+    </div>
+
+    <div class="selections">
+      <mat-form-field appearance="fill">
+        <mat-label>Data do consumo</mat-label>
+        <input readonly="true" (dateInput)="dateSelect($event)" [value]="date" matInput [matDatepicker]="picker">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Tipo de consumo</mat-label>
+        <mat-select (valueChange)="typeSelect($event)" [value]="types.money.description">
+          <mat-option *ngFor="let type of typesArray" [value]="type.description">
+            {{type.description}}
+            <mat-icon slot="start" [fontIcon]="type.icon"></mat-icon>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Produtos</mat-label>
+        <mat-select (valueChange)="typeSelect($event)" [value]="products[0].id">
+          <mat-option *ngFor="let product of products" [value]="product.id">
+            {{product.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button (click)="onClick()" [disabled]="stateButtonUpdate" mat-raised-button>
+        <mat-spinner *ngIf="stateButtonUpdate"></mat-spinner>
+        <mat-icon *ngIf="!stateButtonUpdate">update</mat-icon>
+        <span *ngIf="!stateButtonUpdate">Atualizar</span>
+      </button>
+    </div>
+  </div>
+
+  <hr>
+
+  <router-outlet>
+
+  </router-outlet>
 </div>
-
-
-
+<!--
 <div class="cards">
     <mat-card routerLink="/home/dash-diario">
         <mat-icon>today</mat-icon>
         <h1>Dashboard Diário</h1>
         <p>
-            O dashboard diário permite que você acompanhe o consumo de energia elétrica da sua casa ao longo do dia, identificando os horários de pico e as situações em que há desperdício de energia.
+          Identifique os horários de pico e as situações em que há desperdício de energia.
         </p>
     </mat-card>
 
@@ -39,4 +89,4 @@
             E, por fim, o dashboard em tempo real permite que você monitore o consumo de energia elétrica da sua casa a qualquer momento do dia, de forma simples e rápida.
         </p>
     </mat-card>
-</div>
+</div> -->

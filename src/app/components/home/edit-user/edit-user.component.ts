@@ -52,7 +52,7 @@ export class EditUserComponent {
 
   userInfosStorage(){
     const NameUser = this.sotage.get('name')
-    const Email = this.sotage.get('email')
+    const Email = this.sotage.get('login')
 
     this.userInfos = {
       NameUser,

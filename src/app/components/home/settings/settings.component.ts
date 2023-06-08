@@ -62,10 +62,8 @@ export class SettingsComponent implements OnInit {
   }
 
   userInfoStorage(){
-    const Email = this.storage.get('email')
+    const Email = this.storage.get('login')
     const Name = this.storage.get('name')
-
-    // if(!Email || !Name) this.searchUser(this.storage.getId())
 
     if(this.userInfo.length === 0){
       this.userInfo.push({

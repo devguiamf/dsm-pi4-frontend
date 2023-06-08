@@ -11,9 +11,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
     mat-list{
-      
+
       mat-list-item{
         cursor: pointer;
 
@@ -28,13 +28,19 @@
         bottom: 20px;
 
         #iconLogout{
-          color: rgb(249, 130, 130);
+          color: #D93F72;
         }
       }
     }
+    mat-list-item{
+      mat-icon{
+        transition: 800ms;
+      }
+    }
+
     mat-list-item:hover{
       mat-icon:hover{
-        scale:2;
+        scale:1.7;
       }
     }
   }

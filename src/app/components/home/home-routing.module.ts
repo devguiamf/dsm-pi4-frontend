@@ -10,15 +10,22 @@ import { PaginaInicialComponent } from './pagina-inicial/pagina-inicial.componen
 
 
 const routes: Routes = [
-  {path: '', component: HomeComponent, 
+  {path: '', component: HomeComponent,
     children: [
       {path: '', redirectTo: 'inicial', pathMatch: 'full'},
-      {path: 'dash-diario', component: DashboardDiarioComponent},
-      {path: 'dash-tempo-real', component: DashboardTempoRealComponent},
-      {path: 'dash-mensal', component: DashboardMensalComponent},
       {path: 'settings', component: SettingsComponent},
       {path: 'edit-user', component: EditUserComponent},
-      {path: 'inicial', component: PaginaInicialComponent}
+      {path: 'inicial', component: PaginaInicialComponent, children: [
+        {path: 'dash-diario', pathMatch: 'full', component: DashboardDiarioComponent},
+        {path: 'dash-tempo-real', component: DashboardTempoRealComponent},
+        {path: 'dash-mensal', component: DashboardMensalComponent},
+        {path: '', redirectTo: 'dash-diario', pathMatch: 'full'}
+      ]},
+      {
+        path: '**',
+        redirectTo: 'inicial',
+        pathMatch: 'full'
+      }
   ]},
 ];
 
