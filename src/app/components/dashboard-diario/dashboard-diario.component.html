@@ -1,0 +1,57 @@
+<body>
+  <div class="card1">
+
+  </div>
+
+  <div class="cards">
+    <div class="charts1">
+      <mat-card id="media">
+        <h2>Média de gasto</h2>
+        <mat-card-content>
+          <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
+          <h3 *ngIf="!stateValuesConsumptions">{{type}} {{avearag | decimalCut }}</h3>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card id="media">
+        <h2>Maior gasto do dia</h2>
+
+        <mat-card-content>
+          <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
+          <h3 *ngIf="!stateValuesConsumptions">{{type}}  {{max | decimalCut}}</h3>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card id="media">
+        <h2>outro Dado</h2>
+
+        <mat-card-content>
+          <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
+          <h3 *ngIf="!stateValuesConsumptions">{{type}}  {{max | decimalCut}}</h3>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="charts2">
+      <mat-card id="pf">
+        <h2>Previsão para póximo dia</h2>
+        <mat-card-content>
+          <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card id="gastoTotal">
+        <h2>Consumo Total</h2>
+          <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
+          <canvas #canvaAllConsumption style="position: relative; width: 35vw; height:45vh; bottom: 0;"></canvas>
+      </mat-card>
+    </div>
+
+  </div>
+
+  <mat-card class="lines">
+    <h1>Consumo Diário </h1>
+    <canvas #canva style="position: relative; width: 90vw; height:65vh"></canvas>
+  </mat-card>
+
+</body>

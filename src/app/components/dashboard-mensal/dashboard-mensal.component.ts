@@ -16,7 +16,10 @@ import { PaginaInicialComponent } from '../pagina-inicial/pagina-inicial.compone
 export class DashboardMensalComponent implements OnInit {
   @Inject(MAT_DATE_LOCALE) private _locale: string | undefined = 'pt-BR';
   @ViewChild('canva', { static: true }) element!: ElementRef;
+  @ViewChild('canvaAllConsumption', { static: true }) element2!: ElementRef;
   chartJS!: Chart;
+  colorGradChart = '#DEDEDE'
+  chartJSBar!: any
   date!: Date;
   daysOfMonth: number;
   consumptions!: Consumption;
@@ -61,17 +64,18 @@ export class DashboardMensalComponent implements OnInit {
   }
 
   ngAfterContentInit(): void {
-    this.initChart();
+    this.initChartLines();
+    this.initChartBar();
   }
 
-  private initChart() {
+  private initChartLines() {
     this.chartJS = new Chart(this.element.nativeElement, {
       type: 'line',
       data: {
-        labels: Array.from({ length: this.daysOfMonth }, (_, i: number) => {
+        labels: Array.from({ length: 24 }, (_, i: number) => {
           const hour = i + 1
           const isTwoDigits = hour.toString().length > 1
-          const formattedHour = isTwoDigits ? `${hour}` : `0${hour}`
+          const formattedHour = isTwoDigits ? `${hour}:00` : `0${hour}:00`
           return formattedHour
         }),
         datasets: [
@@ -79,10 +83,10 @@ export class DashboardMensalComponent implements OnInit {
             label: `${this.typeConsumption}`,
             data: [],
             borderWidth: 4,
-            borderColor: 'rgb(58, 148, 74)',
-            backgroundColor: 'white',
+            borderColor: '#4bb774',
             borderCapStyle: 'round',
-            fill: false,
+            backgroundColor: '#4bb77477',
+            fill: true,
           },
         ],
       },
@@ -100,9 +104,65 @@ export class DashboardMensalComponent implements OnInit {
             top: 20,
           },
         },
+        scales: {
+          x: {
+            grid: {
+              color: this.colorGradChart // Define a cor da grade do eixo X
+            }
+          },
+          y: {
+            grid: {
+              color: this.colorGradChart // Define a cor da grade do eixo Y
+            }
+          }
+        }
       },
     });
   }
+
+  private initChartBar() {
+    this.chartJSBar = new Chart(this.element2.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: ['Dinheiro R$','Energia kWh'],
+        datasets: [
+          {
+            data: [50,20],
+            borderWidth: 4,
+            borderColor: ['#4bb774', '#4551B5'],
+            backgroundColor: ['#4bb77477', '#4550b562'],
+          }
+        ],
+      },
+      options: {
+        animation: {
+          duration: 500,
+          easing: 'linear',
+          loop: false,
+        },
+        layout: {
+          padding: {
+            left: 20,
+            bottom: 20,
+            right: 20,
+            top: 20,
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          },
+        },
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      },
+    });
+  }
+
+
 
   private addDataInChart(newData: any[]) {
     this.chartJS.data.datasets[0].data = newData

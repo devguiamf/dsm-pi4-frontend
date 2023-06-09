@@ -1,6 +1,7 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 import { Chart } from 'chart.js';
+import { DashboardService } from '../../pages/home/home.service'
 
 @Component({
   selector: 'app-dashboard-tempo-real',
@@ -27,13 +28,21 @@ export class DashboardTempoRealComponent implements OnInit {
   date = new Date()
 
   constructor(
-    private _adapter: DateAdapter<any>
-  ){}
+    private _adapter: DateAdapter<any>,
+    private dashService: DashboardService
+  ){
+    this.dashService.conect()
+  }
 
   ngOnInit(): void {
     this._adapter.setLocale(this._locale);
-  }
+    this.dashService.getMessages().subscribe({
+      next: (consumption: any) => {
+        console.log(consumption, 'CONSUMPTION SOCKET');
 
+      }
+    })
+  }
 
   ngAfterContentInit(): void {
     this.initChart();
@@ -81,5 +90,9 @@ export class DashboardTempoRealComponent implements OnInit {
         },
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.dashService.desconect()
   }
 }

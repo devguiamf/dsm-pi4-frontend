@@ -1,12 +1,12 @@
 import { HomeComponent } from './home.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DashboardDiarioComponent } from './dashboard-diario/dashboard-diario.component';
-import { SettingsComponent } from './settings/settings.component';
-import { EditUserComponent } from './edit-user/edit-user.component';
-import { DashboardTempoRealComponent } from './dashboard-tempoReal/dashboard-tempo-real.component';
-import { DashboardMensalComponent } from './dashboard-mensal/dashboard-mensal.component';
-import { PaginaInicialComponent } from './pagina-inicial/pagina-inicial.component';
+import { DashboardDiarioComponent } from '../../components/dashboard-diario/dashboard-diario.component';
+import { SettingsComponent } from '../../pages/settings/settings.component';
+import { EditUserComponent } from '../../components/edit-user/edit-user.component';
+import { DashboardTempoRealComponent } from '../../components/dashboard-tempoReal/dashboard-tempo-real.component';
+import { DashboardMensalComponent } from '../../components/dashboard-mensal/dashboard-mensal.component';
+import { PaginaInicialComponent } from '../../components/pagina-inicial/pagina-inicial.component';
 
 
 const routes: Routes = [

@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialUIModule } from 'src/shared/material-UI/material-ui.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RegisterComponent } from './components/register/register.component';
+import { RegisterComponent } from './pages/register/register.component';
 import { ToastrModule } from 'ngx-toastr';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';

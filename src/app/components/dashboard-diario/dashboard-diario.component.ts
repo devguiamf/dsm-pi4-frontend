@@ -24,7 +24,10 @@ import { PaginaInicialComponent } from '../pagina-inicial/pagina-inicial.compone
 export class DashboardDiarioComponent implements OnInit {
 
   @ViewChild('canva', { static: true }) element!: ElementRef;
+  @ViewChild('canvaAllConsumption', { static: true }) element2!: ElementRef;
+
   chartJS!: Chart;
+  chartJSBar!: any;
   consumptions!: Consumption;
   avearag!: number;
   max!: number;
@@ -67,7 +70,8 @@ export class DashboardDiarioComponent implements OnInit {
   }
 
   ngAfterContentInit(): void {
-    this.initChart();
+    this.initChartLines();
+    this.initChartBar();
   }
 
   get consumptionsStorage() {
@@ -75,7 +79,7 @@ export class DashboardDiarioComponent implements OnInit {
   }
 
 
-  private initChart() {
+  private initChartLines() {
     this.chartJS = new Chart(this.element.nativeElement, {
       type: 'line',
       data: {
@@ -90,10 +94,10 @@ export class DashboardDiarioComponent implements OnInit {
             label: `${this.typeConsumption}`,
             data: [],
             borderWidth: 4,
-            borderColor: 'rgb(58, 148, 74)',
-            backgroundColor: '#fff',
+            borderColor: '#4bb774',
             borderCapStyle: 'round',
-            fill: false,
+            backgroundColor: '#4bb77477',
+            fill: true,
           },
         ],
       },
@@ -111,6 +115,48 @@ export class DashboardDiarioComponent implements OnInit {
             top: 20,
           },
         },
+      },
+    });
+  }
+
+  private initChartBar() {
+    this.chartJSBar = new Chart(this.element2.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: ['Dinheiro R$','Energia kWh'],
+        datasets: [
+          {
+            data: [50,20],
+            borderWidth: 4,
+            borderColor: ['#4bb774', '#4551B5'],
+            backgroundColor: ['#4bb77477', '#4550b562'],
+          }
+        ],
+      },
+      options: {
+        animation: {
+          duration: 500,
+          easing: 'linear',
+          loop: false,
+        },
+        layout: {
+          padding: {
+            left: 20,
+            bottom: 20,
+            right: 20,
+            top: 20,
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          },
+        },
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
       },
     });
   }

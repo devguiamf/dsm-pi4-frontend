@@ -6,9 +6,9 @@ import { SettingsService } from './settings.service';
 import { catchError, of } from 'rxjs';
 import { Product } from 'src/shared/interfaces/product-interface';
 import { Router } from '@angular/router';
-import {UserInfo} from '../../../../shared/interfaces/user-interface'
+import {UserInfo} from '../../../shared/interfaces/user-interface'
 import { MatDialog } from '@angular/material/dialog';
-import { EditUserComponent } from '../edit-user/edit-user.component';
+import { EditUserComponent } from '../../components/edit-user/edit-user.component';
 
 @Component({
   selector: 'app-settings',

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, Output } from '@angular/core';
 import { StorageService } from 'src/util/storage.service';
-import { DashboardService } from '../home.service';
+import { DashboardService } from '../../pages/home/home.service';
 import { Product } from 'src/shared/interfaces/product-interface';
 import { Consumption } from 'src/shared/interfaces/consumptions.-interface';
 import { catchError, of } from 'rxjs';
@@ -109,15 +109,20 @@ export class PaginaInicialComponent {
 
   }
 
-  private mountMessage() {
+  private mountMessage(): void {
+    console.log(this.period);
+
     if (this.period < 5 || this.period > 17) {
       this.msg = 'Boa Noite'
+       return
     }
     if (this.period > 5 && this.period < 12) {
       this.msg = 'Bom Dia'
+      return
     }
     if (this.period > 12 && this.period < 17) {
       this.msg = 'Boa Tarde'
+      return
     }
   }
 
