@@ -1,13 +1,6 @@
 <body>
-    <div class="card1">
-        <mat-form-field appearance="fill">
-          <mat-label>Tipo de consumo</mat-label>
-          <mat-select (valueChange)="typeSelect($event)" [value]="types[1].description">
-            <mat-option *ngFor="let type of types" [value]="type.description">
-              {{type.description}}
-              <mat-icon slot="start" [fontIcon]="type.icon"></mat-icon>
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+  <mat-card class="lines">
+    <h1>Consumo em tempo Real - Ultimos 30 minutos </h1>
+    <canvas #canva style="position: relative; width: 90vw; height:65vh"></canvas>
+  </mat-card>
 </body>
