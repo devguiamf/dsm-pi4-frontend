@@ -89,29 +89,45 @@ body{
         }
       }
 
-      h2{
-        font-weight: bolder;
-      }
+      .values{
 
+        display: flex;
+        justify-content: center;
+        height: 100%;
+
+        .fixed{
+          height: 100%;
+          h2{
+            font-weight: bolder;
+          }
+
+          h3{
+
+
+            font-size: 2em;
+          }
+        }
+
+        .standardDeviation{
+          height: 100%;
+          margin-left: -35px;
+
+          #negative{
+            color: red;
+            font-weight: bold;
+          }
+
+          #positive{
+            color: green;
+            margin-top: 70%;
+            font-weight: bold;
+          }
+        }
 
         mat-spinner{
           scale: 0.5;
         }
-
-        div {
-          strong{
-            font-size: 4em;
-            display: flex;
-            justify-content: center;
-            margin-top: 50px;
-          }
-        }
-
-        h3{
-          margin-top: 25px;
-          text-align: center;
-          font-size: 2em;
-        }
+      }
     }
   }
 

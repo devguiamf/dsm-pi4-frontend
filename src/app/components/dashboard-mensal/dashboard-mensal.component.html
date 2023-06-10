@@ -5,7 +5,31 @@
 
   <div class="cards">
     <div class="charts1">
+
       <mat-card id="media">
+          <div *ngIf="moneyCard === true" id="symbolMoney">
+            <img src="../../../assets/cifrao.png" alt="">
+          </div>
+
+          <div *ngIf="energyCard === true" id="energySymbol">
+            <img src="../../../assets/raio.png" alt="">
+          </div>
+
+        <div class="values">
+          <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
+          <div class="fixed" *ngIf="!stateValuesConsumptions">
+            <h2 >Média de gasto</h2>
+            <h3>{{type}} {{avearag | decimalCut }}</h3>
+          </div>
+          <div class="standardDeviation" *ngIf="!stateValuesConsumptions">
+            <h4 id="positive">+ {{standardDeviation}}</h4>
+            <h4 id="negative">- {{standardDeviation}}</h4>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card id="media">
+
         <div *ngIf="moneyCard === true" id="symbolMoney">
           <img src="../../../assets/cifrao.png" alt="">
         </div>
@@ -14,32 +38,16 @@
           <img src="../../../assets/raio.png" alt="">
         </div>
 
-      <div>
-        <h2 *ngIf="!stateValuesConsumptions">Média de gasto</h2>
-        <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
-        <h3 *ngIf="!stateValuesConsumptions">{{type}} {{avearag | decimalCut }}</h3>
-      </div>
-    </mat-card>
-
-    <mat-card id="media">
-
-      <div *ngIf="moneyCard === true" id="symbolMoney">
-        <img src="../../../assets/cifrao.png" alt="">
-      </div>
-
-      <div *ngIf="energyCard === true" id="energySymbol">
-        <img src="../../../assets/raio.png" alt="">
-      </div>
-
-      <div>
-        <h2 *ngIf="!stateValuesConsumptions">Maior gasto do dia</h2>
-        <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
-        <h3 *ngIf="!stateValuesConsumptions">{{type}}  {{max | decimalCut}}</h3>
-      </div>
-    </mat-card>
+        <div class="values">
+          <div class="fixed ">
+            <h2 *ngIf="!stateValuesConsumptions">Maior gasto do dia</h2>
+            <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
+            <h3 *ngIf="!stateValuesConsumptions">{{type}}  {{max | decimalCut}}</h3>
+          </div>
+        </div>
+      </mat-card>
 
       <mat-card id="media">
-
       </mat-card>
     </div>
 
@@ -53,6 +61,7 @@
 
       <mat-card id="gastoTotal">
         <h2>Consumo Total</h2>
+          <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
           <canvas #canvaAllConsumption style="position: relative; width: 35vw; height:45vh; bottom: 0;"></canvas>
       </mat-card>
     </div>

@@ -25,6 +25,7 @@ export class DashboardMensalComponent implements OnInit {
   consumptions!: Consumption;
   avearag!: number;
   max!: number;
+    standardDeviation!: number;
   stateButtonUpdate: boolean = false
   stateValuesConsumptions: boolean = true
   type!: string
@@ -49,6 +50,7 @@ export class DashboardMensalComponent implements OnInit {
       next: (value: any) => {
         this.avearag = value.average;
         this.max = value.max;
+        this.standardDeviation = value.standardDeviation;
         this.addDataInChart(value.data);
         this.stateValuesConsumptions = false;
       }

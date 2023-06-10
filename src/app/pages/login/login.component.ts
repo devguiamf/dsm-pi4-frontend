@@ -36,8 +36,8 @@ export class LoginComponent implements OnInit {
 
   initialForms(){
     this.form = this.fb.group({
-      email: ['adrielbarborges@gmail.com', [Validators.required, Validators.email]],
-      password: ['admin123', [Validators.required, Validators.minLength(6)]]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
 
@@ -62,11 +62,13 @@ export class LoginComponent implements OnInit {
       catchError(err => {
         if(err.status === 404 || err.status === 401) this.utilService.showError(err.error.msg)
         if(err.status !== 404 || err.status === 401) this.utilService.showError('Ops, erro no servidor')
+        this.state = false
         return throwError(() => err)})
     )
     .subscribe(data => {
       this.setLocalStorage(data)
       this.singIn()
+      this.state = false
     })
 
   }

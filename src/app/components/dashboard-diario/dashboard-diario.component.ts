@@ -31,12 +31,14 @@ export class DashboardDiarioComponent implements OnInit {
   consumptions!: Consumption;
   avearag!: number;
   max!: number;
+  standardDeviation!: number;
   stateButtonUpdate: boolean = false
   stateValuesConsumptions: boolean = true
   type!: string
   total!: number[]
   energyCard: boolean = false
   moneyCard: boolean = false
+
 
 
   typeConsumption!: string
@@ -51,6 +53,7 @@ export class DashboardDiarioComponent implements OnInit {
         this.stateValuesConsumptions = false;
         this.avearag = value.average;
         this.max = value.max;
+        this.standardDeviation = value.standardDeviation;
         this.addDataInChart(value.data);
       }
     })
@@ -77,12 +80,9 @@ export class DashboardDiarioComponent implements OnInit {
 
     this.initialPage.$totalValuesConsumptions.subscribe({
       next: (value: number[]) => {
-        console.log(value, 'total');
-
         this.total = value
         this.chartJSBar.data.datasets[0].data = this.total
         this.chartJSBar.update()
-
       }
     })
 
@@ -93,10 +93,6 @@ export class DashboardDiarioComponent implements OnInit {
     })
   }
 
-  getColorData(){
-
-  }
-
   ngAfterContentInit(): void {
     this.initChartLines();
     this.initChartBar();
@@ -105,14 +101,12 @@ export class DashboardDiarioComponent implements OnInit {
   get consumptionsStorage() {
     return JSON.parse(this.storageService.get('dayliConsumprtions') || '{}')
   }
-
-
   private initChartLines() {
     this.chartJS = new Chart(this.element.nativeElement, {
       type: 'line',
       data: {
         labels: Array.from({ length: 24 }, (_, i: number) => {
-          const hour = i + 1
+          const hour = i
           const isTwoDigits = hour.toString().length > 1
           const formattedHour = isTwoDigits ? `${hour}:00` : `0${hour}:00`
           return formattedHour

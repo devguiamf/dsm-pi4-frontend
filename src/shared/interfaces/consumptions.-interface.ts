@@ -4,6 +4,8 @@ export interface Consumption {
         average: number,
         max: number
         total: number
+        forecast: number
+        standardDeviation: number
     },
 
     consumptionsInMoney: {
@@ -11,6 +13,8 @@ export interface Consumption {
         average: number,
         max: number,
         total: number
+        forecast: number
+        standardDeviation: number
     }
 }
 
