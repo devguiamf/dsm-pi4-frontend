@@ -1,14 +1,17 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Chart } from 'chart.js';
 import { DashboardService } from '../../pages/home/home.service'
+import { ConsumptionSokect } from 'src/shared/interfaces/consumptions.-interface';
+import { map } from 'rxjs';
+import { PaginaInicialComponent } from '../pagina-inicial/pagina-inicial.component';
 
 @Component({
   selector: 'app-dashboard-tempo-real',
   templateUrl: './dashboard-tempo-real.component.html',
   styleUrls: ['./dashboard-tempo-real.component.scss'],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
   ],
 })
 export class DashboardTempoRealComponent implements OnInit {
@@ -19,29 +22,55 @@ export class DashboardTempoRealComponent implements OnInit {
   energyType!: string
   moneyType!: string
   hours!: string[]
+  consumptions!: ConsumptionSokect[]
+  cpflQuota: number = 0.9
 
   types = [
-    {description: 'Energia', value:'1', icon:'electric_bolt', type: 'Khw' },
-    {description: `Dinheiro`, value:'2', icon:'payments', type: 'R$'}
+    { description: 'Energia', value: '1', icon: 'electric_bolt', type: 'Khw' },
+    { description: `Dinheiro`, value: '2', icon: 'payments', type: 'R$' }
   ]
 
   date = new Date()
 
   constructor(
     private _adapter: DateAdapter<any>,
-    private dashService: DashboardService
-  ){
+    private dashService: DashboardService,
+    private pageInitial: PaginaInicialComponent
+  ) {
     this.dashService.conect()
   }
 
   ngOnInit(): void {
     this._adapter.setLocale(this._locale);
-    this.dashService.getMessages().subscribe({
-      next: (consumption: any) => {
-        console.log(consumption, 'CONSUMPTION SOCKET');
 
+    this.pageInitial.$connetSocket.subscribe({
+      next: (connection: boolean) => {
+        if (connection) this.conectSocket()
       }
     })
+
+  }
+
+  private conectSocket(){
+    let money: number = 0
+
+    this.dashService.getConsumptions()
+    .pipe(
+
+      map(consumptions => {
+        consumptions.money = consumptions.power * this.cpflQuota
+        const date = consumptions.kwmDate.slice(11)
+
+
+        return consumptions
+      })
+    )
+      .subscribe({
+        next: (consumption: ConsumptionSokect) => {
+          console.log(consumption);
+
+        }
+      })
   }
 
   ngAfterContentInit(): void {
@@ -52,7 +81,7 @@ export class DashboardTempoRealComponent implements OnInit {
     this.chartJS = new Chart(this.element.nativeElement, {
       type: 'line',
       data: {
-        labels: ['2','2'],
+        labels: ['2', '2'],
         datasets: [
           {
             label: 'Dinheiro R$',

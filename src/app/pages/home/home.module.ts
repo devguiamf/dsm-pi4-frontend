@@ -8,6 +8,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatSelectModule} from '@angular/material/select';
+
 
 import { HomeRoutingModule } from './home-routing.module';
 
@@ -44,7 +46,8 @@ import { DecimalCutPipe } from 'src/shared/pipes/decimal-cut-pipe';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSelectModule
   ],
   providers: [
     MatDatepickerModule, MatNativeDateModule

@@ -1,7 +1,7 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 import Chart from 'chart.js/auto';
-import { Consumption, Types } from 'src/shared/interfaces/consumptions.-interface';
+import { Consumption, Types, TypesChartOptions } from 'src/shared/interfaces/consumptions.-interface';
 import { StorageService } from 'src/util/storage.service';
 import { PaginaInicialComponent } from '../pagina-inicial/pagina-inicial.component';
 
@@ -28,6 +28,8 @@ export class DashboardMensalComponent implements OnInit {
   stateButtonUpdate: boolean = false
   stateValuesConsumptions: boolean = true
   type!: string
+  energyCard: boolean = false
+  moneyCard: boolean = false
   types = {
     energy: { description: 'Energia - KW', value: '1', icon: 'electric_bolt', type: 'kHw' },
     money: { description: `Dinheiro - R$`, value: '2', icon: 'payments', type: 'R$' }
@@ -43,7 +45,7 @@ export class DashboardMensalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initialPage.consumptionsMonth.subscribe({
+    this.initialPage.$consumptionsMonth.subscribe({
       next: (value: any) => {
         this.avearag = value.average;
         this.max = value.max;
@@ -53,15 +55,34 @@ export class DashboardMensalComponent implements OnInit {
     })
 
     this.initialPage.type.subscribe({
-      next: (value: Types) => {
+      next: (value: TypesChartOptions) => {
         this.typeConsumption = value.description;
         this.type = value.type;
         this.stateValuesConsumptions = false;
+
+        if(value.type === 'R$'){
+          this.moneyCard = true
+          this.energyCard = false
+        }else{
+          this.moneyCard = false
+          this.energyCard = true
+        }
+
+        this.chartJS.data.datasets[0].backgroundColor = value.backgroundColor
+        this.chartJS.data.datasets[0].borderColor = value.borderColor
         this.chartJS.data.datasets[0].label = this.typeConsumption
         this.chartJS.update()
       }
     })
+
+    this.initialPage.$stateLoading.subscribe({
+      next: (value: boolean) => {
+        this.stateValuesConsumptions = value
+      }
+    })
   }
+
+
 
   ngAfterContentInit(): void {
     this.initChartLines();

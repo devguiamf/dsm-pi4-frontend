@@ -3,17 +3,31 @@ export interface Consumption {
         data : number[],
         average: number,
         max: number
+        total: number
     },
 
     consumptionsInMoney: {
         data: number[],
         average: number,
-        max: number
+        max: number,
+        total: number
     }
+}
+
+export interface ConsumptionSokect{
+  eletricCurrent: number
+  kwmDate: string
+  power: number
+  money: number
 }
 
 export interface Types{
   description: string
   icon: string,
   type: string
+}
+
+export interface TypesChartOptions extends Types{
+  borderColor: string,
+  backgroundColor: string
 }

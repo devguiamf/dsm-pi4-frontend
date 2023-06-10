@@ -17,21 +17,31 @@
         <mat-icon>calendar_month</mat-icon>
         Mensal
       </div>
-      <div routerLinkActive="activeTabsDay" [routerLink]="'dash-tempo-real'" class="tabs">
+      <div routerLinkActive="activeTabsDay" (click)="onClickRealtime()" [routerLink]="'dash-tempo-real'" class="tabs">
         <mat-icon>schedule</mat-icon>
         Realtime
       </div>
     </div>
 
     <div class="selections">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" *ngIf="tabs === 'hourly'">
         <mat-label>Data do consumo</mat-label>
         <input readonly="true" (dateInput)="dateSelect($event)" [value]="date" matInput [matDatepicker]="picker">
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field *ngIf="tabs === 'month'">
+        <mat-label>Selecione o mês</mat-label>
+        <mat-select [value]="monthSelectes">
+          <mat-option (click)="selectMonth(month.monthNumber)" *ngFor="let month of months" [value]="month.monthNumber">
+            {{month.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="fill" *ngIf="tabs == 'hourly' || tabs === 'month'">
         <mat-label>Tipo de consumo</mat-label>
         <mat-select (valueChange)="typeSelect($event)" [value]="types.money.description">
           <mat-option *ngFor="let type of typesArray" [value]="type.description">
@@ -41,7 +51,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" *ngIf="products">
+      <mat-form-field appearance="fill" *ngIf="products && (tabs == 'hourly' || tabs === 'month' || tabs === 'realtime')">
         <mat-label>Produtos</mat-label>
         <mat-select (valueChange)="typeSelect($event)" [value]="products[0].id">
           <mat-option *ngFor="let product of products" [value]="product.id">
@@ -50,10 +60,16 @@
         </mat-select>
       </mat-form-field>
 
-      <button (click)="onClickUpdateData()" [disabled]="stateButtonUpdate" mat-raised-button>
+      <button *ngIf="tabs == 'hourly' || tabs === 'month'" (click)="onClickUpdateData()" [disabled]="stateButtonUpdate" mat-raised-button>
         <mat-spinner *ngIf="stateButtonUpdate"></mat-spinner>
         <mat-icon *ngIf="!stateButtonUpdate">update</mat-icon>
         <span *ngIf="!stateButtonUpdate">Atualizar</span>
+      </button>
+
+      <button *ngIf="tabs == 'realtime'" (click)="onClickConnectRealtime()" [disabled]="stateButtonUpdate" mat-raised-button>
+        <mat-spinner *ngIf="stateButtonUpdate"></mat-spinner>
+        <mat-icon *ngIf="!stateButtonUpdate">update</mat-icon>
+        <span *ngIf="!stateButtonUpdate">Conectar</span>
       </button>
     </div>
   </div>

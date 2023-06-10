@@ -41,7 +41,7 @@ body{
   }
 
   .charts1{
-    width: 20%;
+    width: 30%;
     height: 400px;
     display: flex;
     flex-direction: column;
@@ -49,17 +49,48 @@ body{
     #media{
       width: 100%;
       height: 29.2%;
-      padding: 5px 0px 0px 15px;
       margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      border-top-left-radius: 12px;
+      border-bottom-left-radius: 12px;
+
+      #symbolMoney{
+        margin-right: 50px;
+        background-color: var(--primary-chart-grey);
+        width: 30%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+
+        img{
+          width: 50px;
+        }
+      }
+
+      #energySymbol{
+        margin-right: 50px;
+        background-color:var(--cardSymbolEnergy);
+        width: 30%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+
+
+        img{
+          width: 50px;
+        }
+      }
 
       h2{
         font-weight: bolder;
       }
 
-      mat-card-content{
-        display: flex;
-        justify-content: center;
-        margin-top: -20px;
 
         mat-spinner{
           scale: 0.5;
@@ -79,12 +110,11 @@ body{
           text-align: center;
           font-size: 2em;
         }
-      }
     }
   }
 
   .charts2{
-    width: 79%;
+    width: 69%;
     height: 400px;
     display: flex;
 

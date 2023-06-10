@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { enviremonet } from 'src/enviremonents/enviromenents';
-import { Consumption } from 'src/shared/interfaces/consumptions.-interface';
+import { Consumption, ConsumptionSokect } from 'src/shared/interfaces/consumptions.-interface';
 import { Product } from 'src/shared/interfaces/product-interface';
 import { StorageService } from 'src/util/storage.service';
 import { io, Socket } from 'socket.io-client';
@@ -69,7 +69,7 @@ export class DashboardService {
     })
   }
 
-  public getMessages(): Observable<any> {
+  public getConsumptions(): Observable<ConsumptionSokect> {
     return new Observable<any>((observer) => {
       this.socket.on('products:new-consumption', (consumption: any) => {
         observer.next(consumption)

@@ -4,12 +4,13 @@ import { StorageService } from 'src/util/storage.service';
 import { DashboardService } from '../../pages/home/home.service';
 import { Product } from 'src/shared/interfaces/product-interface';
 import { Consumption } from 'src/shared/interfaces/consumptions.-interface';
-import { catchError, of } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 import { UtilService } from 'src/util/util.service';
 import { formatDate } from '@angular/common';
 import { Subject } from 'rxjs';
 import { MAT_DATE_LOCALE, DateAdapter} from '@angular/material/core';
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-pagina-inicial',
@@ -21,9 +22,11 @@ import { Router } from '@angular/router';
 })
 export class PaginaInicialComponent {
   @Inject(MAT_DATE_LOCALE) private _locale: string | undefined = 'pt-BR';
-  consumptionsHourly: Subject<any> = new Subject<any>();
-  consumptionsMonth: Subject<any> = new Subject<any>();
-  stateLoading: Subject<boolean> = new Subject<boolean>()
+  $consumptionsHourly: Subject<any> = new Subject<any>();
+  $consumptionsMonth: Subject<any> = new Subject<any>();
+  $totalValuesConsumptions: Subject<number[]> = new Subject<number[]>();
+  $connetSocket: Subject<boolean> = new Subject<boolean>();
+  $stateLoading: Subject<boolean> = new Subject<boolean>()
   type: Subject<any> = new Subject<any>();
   consumptionsHourlyValues!: Consumption;
   consumptionsMonthValues!: Consumption
@@ -34,15 +37,33 @@ export class PaginaInicialComponent {
   idProduct!: number;
   avearag!: number;
   max!: number;
+  total: number[] = []
   products!: Product[];
   stateButtonUpdate: boolean = false
   stateValuesConsumptions: boolean = true
+  tabs!: string
+  monthSelectes!: number
   types = {
-    energy: { description: 'Energia - KW', value: '1', icon: 'electric_bolt', type: 'kWh' },
-    money: { description: `Dinheiro - R$`, value: '2', icon: 'payments', type: 'R$' }
+    energy: { description: 'Energia - KW',  icon: 'electric_bolt', type: 'kWh', borderColor: '#4550b562',  backgroundColor: '#9ba1d5'  },
+    money: { description: `Dinheiro - R$`, icon: 'payments', type: 'R$', borderColor: '#4bb774',  backgroundColor: '#4bb77477' }
   }
+  months = [
+
+    { name: 'Janeiro', monthNumber: 1},
+    { name: 'Fevereiro', monthNumber: 2},
+    { name: 'Março', monthNumber: 3},
+    { name: 'Abril', monthNumber: 4},
+    { name: 'Maio', monthNumber: 5},
+    { name: 'Junho', monthNumber: 6},
+    { name: 'Julho', monthNumber: 7},
+    { name: 'Agosto', monthNumber: 8},
+    { name: 'Setembro', monthNumber: 9},
+    { name: 'Outubro', monthNumber: 10},
+    { name: 'Novembro', monthNumber: 10},
+    { name: 'Dezembro', monthNumber: 11}
+  ]
   typeConsumption: string = this.types.money.description;
-  tabIndicator!: string | null
+  tabIndicator!: any
 
   constructor(
     private StorageService: StorageService,
@@ -54,11 +75,14 @@ export class PaginaInicialComponent {
     this._adapter.setLocale('pt-BR');
     this.date = new Date()
     this.datetime = new Date();
+    this.monthSelectes = this.datetime.getMonth() + 1;
 
     if((this.StorageService.get('tabActive') || '') != ''){
       this.tabIndicator = this.StorageService.get('tabActive')
+      this.tabs = this.tabIndicator
     }else{
       this.StorageService.set('tabActive', 'hourly')
+      this.tabs = 'hourly'
       this.tabIndicator = this.StorageService.get('tabActive')
     }
 
@@ -127,7 +151,8 @@ export class PaginaInicialComponent {
   }
 
   private getConsumptionsHourly(date: string) {
-    this.stateLoading.next(true)
+
+    this.$stateLoading.next(true)
     this.stateValuesConsumptions = true
     this.homeService.getConsumptionDay(date, this.ProductId)
       .pipe(
@@ -135,45 +160,92 @@ export class PaginaInicialComponent {
           console.error(err);
           this.utilService.showError(err.message)
           return of();
+        }),
+        map(consumption => {
+          let sumKw: number = 0
+          let sumMoney: number = 0
+          consumption.consumptionsInKw.data.forEach(values => {
+            sumKw = sumKw + values
+          });
+          consumption.consumptionsInMoney.data.forEach(values => {
+            sumMoney = sumMoney + values
+          });
+          consumption.consumptionsInKw.total = sumKw
+          consumption.consumptionsInMoney.total = sumMoney
+          return consumption
         })
       )
       .subscribe({
         next: (value: Consumption) => {
+          this.total = []
+          this.total.push(value.consumptionsInKw.total)
+          this.total.push(value.consumptionsInMoney.total)
+
+          console.log(this.total, 'TOTAL');
+
+
           this.stateButtonUpdate = false
           this.consumptionsHourlyValues = value
 
           if (this.typeConsumption == this.types.energy.description) {
             this.type.next(this.types.energy)
-            this.consumptionsHourly.next(value.consumptionsInKw)
+            this.$consumptionsHourly.next(value.consumptionsInKw)
+            this.$totalValuesConsumptions.next(this.total)
             return
           }
           this.type.next(this.types.money)
-          this.consumptionsHourly.next(value.consumptionsInMoney)
+          this.$consumptionsHourly.next(value.consumptionsInMoney)
+          this.$totalValuesConsumptions.next(this.total)
         }
       })
   }
 
   private getConsumptionMonth(date: string) {
-    this.stateLoading.next(true)
+    console.log(date);
+    this.$stateLoading.next(true)
     this.stateValuesConsumptions = true
     this.homeService.getConsumptionMonth(date, this.ProductId)
       .pipe(
         catchError((err: Error) => {
           console.error(err);
           return of();
+        }),
+
+        map(consumption => {
+          let sumKw: number = 0
+          let sumMoney: number = 0
+          consumption.consumptionsInKw.data.forEach(values => {
+            sumKw = sumKw + values
+          });
+          consumption.consumptionsInMoney.data.forEach(values => {
+            sumMoney = sumMoney + values
+          });
+          consumption.consumptionsInKw.total = sumKw
+          consumption.consumptionsInMoney.total = sumMoney
+          return consumption
         })
       )
       .subscribe({
         next: (value: Consumption) => {
+          this.total = []
+          this.total.push(value.consumptionsInKw.total)
+          this.total.push(value.consumptionsInMoney.total)
+
           this.stateButtonUpdate = false
           this.consumptionsMonthValues = value
           if (this.typeConsumption == this.types.energy.description) {
-            this.type.next(this.types.energy)
-            this.consumptionsMonth.next(value.consumptionsInKw)
+            setTimeout(() => {
+              this.type.next(this.types.energy)
+              this.$consumptionsMonth.next(value.consumptionsInKw)
+              this.$totalValuesConsumptions.next(this.total)
+            }, 500);
             return
           }
-          this.type.next(this.types.money)
-          this.consumptionsMonth.next(value.consumptionsInMoney)
+          setTimeout(() => {
+            this.type.next(this.types.money)
+            this.$consumptionsMonth.next(value.consumptionsInMoney)
+            this.$totalValuesConsumptions.next(this.total)
+          }, 500);
         },
 
         error: (err: Error) => {
@@ -187,37 +259,42 @@ export class PaginaInicialComponent {
     if(event == this.types.money.description && this.tabIndicator == 'hourly'){
       this.typeConsumption = event
       this.type.next(this.types.money)
-      this.consumptionsHourly.next(this.consumptionsHourlyValues.consumptionsInMoney)
+      this.$consumptionsHourly.next(this.consumptionsHourlyValues.consumptionsInMoney)
       return
     }
     if(event == this.types.energy.description && this.tabIndicator == 'hourly'){
       this.typeConsumption = event
       this.type.next(this.types.energy)
-      this.consumptionsHourly.next(this.consumptionsHourlyValues.consumptionsInKw)
+      this.$consumptionsHourly.next(this.consumptionsHourlyValues.consumptionsInKw)
       return
     }
     if(event == this.types.money.description && this.tabIndicator == 'month'){
       this.typeConsumption = event
       this.type.next(this.types.money)
-      this.consumptionsHourly.next(this.consumptionsHourlyValues.consumptionsInMoney)
+      this.$consumptionsHourly.next(this.consumptionsHourlyValues.consumptionsInMoney)
       return
     }
     if(event == this.types.energy.description && this.tabIndicator == 'month'){
       this.typeConsumption = event
       this.type.next(this.types.energy)
-      this.consumptionsHourly.next(this.consumptionsHourlyValues.consumptionsInMoney)
+      this.$consumptionsHourly.next(this.consumptionsHourlyValues.consumptionsInMoney)
       return
     }
   }
 
+  selectMonth(monthNumber: number){
+    const year: number = new Date().getFullYear()
+    const day: number = new Date().getDay()
+    this.datetime = `${year}-${monthNumber}-${day}`
+  }
+
   onClickUpdateData() {
+
     this.stateButtonUpdate = true
     if (!this.formattedSelectedData || this.formattedSelectedData.length == 0) return this.utilService.showError('Selecione uma data para buscar')
     this.tabIndicator = this.StorageService.get('tabActive')
     if (this.formattedSelectedData) {
       if(this.tabIndicator == 'hourly'){
-        console.log('atualiza');
-
         this.stateButtonUpdate = true
         this.getConsumptionsHourly(this.formattedSelectedData)
         return
@@ -231,40 +308,56 @@ export class PaginaInicialComponent {
   }
 
   onClickHourly() {
+    this.tabs = 'hourly'
     this.StorageService.set('tabActive', 'hourly')
+    console.log(this.consumptionsHourlyValues);
+
     if (this.consumptionsHourlyValues) {
       if(this.typeConsumption == this.types.energy.description){
-        setTimeout(() => {
-          this.type.next(this.types.energy)
-          this.consumptionsHourly.next(this.consumptionsHourlyValues.consumptionsInKw)
-        }, 500);
+          setTimeout(() => {
+            this.type.next(this.types.energy)
+            this.$consumptionsHourly.next(this.consumptionsHourlyValues.consumptionsInKw)
+            this.$totalValuesConsumptions.next(this.total)
+          }, 500);
         return
       }
       setTimeout(() => {
         this.type.next(this.types.money)
-        this.consumptionsHourly.next(this.consumptionsHourlyValues.consumptionsInMoney)
+        this.$consumptionsHourly.next(this.consumptionsHourlyValues.consumptionsInMoney)
       }, 500);
+;
     } else {
       this.getConsumptionsHourly(this.formattedSelectedData)
     }
   }
 
   onClickMonth() {
+    this.tabs = 'month'
     this.StorageService.set('tabActive', 'month')
     if (this.consumptionsMonthValues) {
       if(this.typeConsumption == this.types.energy.description){
         setTimeout(() => {
           this.type.next(this.types.energy)
-          this.consumptionsMonth.next(this.consumptionsMonthValues.consumptionsInKw)
+          this.$consumptionsMonth.next(this.consumptionsMonthValues.consumptionsInKw)
         }, 500);
         return
       }
       setTimeout(() => {
         this.type.next(this.types.money)
-        this.consumptionsMonth.next(this.consumptionsMonthValues.consumptionsInMoney)
+        this.$consumptionsMonth.next(this.consumptionsMonthValues.consumptionsInMoney)
       }, 500);
     } else {
       this.getConsumptionMonth(this.formattedSelectedData)
     }
+  }
+
+  onClickRealtime() {
+    this.tabs = 'realtime'
+    this.StorageService.set('tabActive', 'realtime')
+    this.$stateLoading.next(true)
+  }
+
+  onClickConnectRealtime(){
+    this.$connetSocket.next(true)
   }
 }
