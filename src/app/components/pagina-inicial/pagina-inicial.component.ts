@@ -112,6 +112,7 @@ export class PaginaInicialComponent {
         this.getConsumptionMonth(this.formattedSelectedData)
       }
     }
+
     this.mountMessage()
   }
 
@@ -377,4 +378,5 @@ export class PaginaInicialComponent {
   onClickConnectRealtime(){
     this.$connetSocket.next(true)
   }
+
 }

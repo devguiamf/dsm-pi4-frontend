@@ -99,11 +99,11 @@ body{
           height: 100%;
           h2{
             font-weight: bolder;
+            font-family: var(--font);
           }
 
           h3{
-
-
+            font-family: var(--font);
             font-size: 2em;
           }
         }
@@ -115,12 +115,14 @@ body{
           #negative{
             color: red;
             font-weight: bold;
+            font-family: var(--font);
           }
 
           #positive{
             color: green;
-            margin-top: 70%;
+            margin-top: 60%;
             font-weight: bold;
+            font-family: var(--font);
           }
         }
 
@@ -144,6 +146,7 @@ body{
 
       h2{
         font-weight: bolder;
+        font-family: var(--font);
       }
 
       mat-card-content{
@@ -166,6 +169,7 @@ body{
 
       h2{
         font-weight: bolder;
+        font-family: var(--font);
       }
 
       mat-card-content{
@@ -192,6 +196,7 @@ body{
       text-align: center;
       margin-top: 20px;
       color: var(--body-text);
+      font-family: var(--font);
     }
 }
 

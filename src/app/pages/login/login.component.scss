@@ -6,9 +6,6 @@
 
 :root {
   --colorPurple: #640088;
-  --fonte:   font-family: 'Bebas Neue', cursive;
-
-
 }
 
 body{
@@ -32,10 +29,12 @@ mat-card{
     mat-card-title{
       margin-bottom: 20px;
       font-size: 2em;
+      font-family: var(--font);
     }
 
     mat-card-subtitle{
       margin-bottom: -5px;
+      font-family: var(--font);
     }
   }
 
@@ -47,6 +46,7 @@ mat-card{
     h5{
       margin-top: 5px;
       cursor: pointer;
+      font-family: var(--font);
     }
 
     h5:hover{
@@ -56,18 +56,27 @@ mat-card{
     #login{
       display: flex;
       justify-content: center;
+      font-family: var(--font);
 
       mat-form-field{
         width: 90%;
+
+        mat-label{
+          font-family: var(--font);
+        }
       }
     }
 
     #password{
       display: flex;
       justify-content: center;
-
+      font-family: var(--font);
       mat-form-field{
         width: 90%;
+
+        mat-label{
+          font-family: var(--font);
+        }
 
         mat-icon:hover{
           cursor: pointer;
@@ -84,6 +93,10 @@ mat-card{
         display: flex;
         justify-content: center;
         align-items: center;
+        
+        span{
+          font-family: var(--font);
+        }
       }
     }
   }

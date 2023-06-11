@@ -19,10 +19,9 @@ export interface Consumption {
 }
 
 export interface ConsumptionSokect{
-  eletricCurrent: number
-  kwmDate: string
-  power: number
-  money: number
+  kwmDate: string,
+  kwm: number,
+  kwInMoney: number
 }
 
 export interface Types{

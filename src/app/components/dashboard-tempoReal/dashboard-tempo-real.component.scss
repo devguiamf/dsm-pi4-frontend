@@ -1,14 +1,13 @@
 body {
     height: 950px;
 
-    .card1 {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 10vh;
+  .lines{
 
-        #date {
-            margin-right: 30px;
-        }
+
+    h1{
+      text-align: center;
+      font-weight: bold;
+      margin-top: 20px;
     }
+  }
 }

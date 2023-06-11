@@ -45,32 +45,25 @@ export class DashboardTempoRealComponent implements OnInit {
 
     this.pageInitial.$connetSocket.subscribe({
       next: (connection: boolean) => {
+        console.log(connection);
         if (connection) this.conectSocket()
       }
     })
 
+    this.dashService.addDataChart().subscribe({
+      next: (consumptions: any) => {
+        // console.log(consumptions, 'SUBSCRIBE');
+        setTimeout(() => {
+          this.addDataCharts(consumptions.labels, consumptions.dataKw, consumptions.dataMoney)
+        }, 1000);
+      }
+    })
+
+
   }
 
   private conectSocket(){
-    let money: number = 0
-
-    this.dashService.getConsumptions()
-    .pipe(
-
-      map(consumptions => {
-        consumptions.money = consumptions.power * this.cpflQuota
-        const date = consumptions.kwmDate.slice(11)
-
-
-        return consumptions
-      })
-    )
-      .subscribe({
-        next: (consumption: ConsumptionSokect) => {
-          console.log(consumption);
-
-        }
-      })
+    this.dashService.conect()
   }
 
   ngAfterContentInit(): void {
@@ -81,25 +74,29 @@ export class DashboardTempoRealComponent implements OnInit {
     this.chartJS = new Chart(this.element.nativeElement, {
       type: 'line',
       data: {
-        labels: ['2', '2'],
+        labels: Array.from({ length: 24 }, (_, i: number) => {
+          const hour = i
+          const isTwoDigits = hour.toString().length > 1
+          const formattedHour = isTwoDigits ? `${hour}:00` : `0${hour}:00`
+          return formattedHour
+        }),
         datasets: [
           {
             label: 'Dinheiro R$',
             data: [],
             borderWidth: 4,
-            borderColor: 'rgb(58, 148, 74)',
-            backgroundColor: 'white',
+            borderColor: '#4bb774',
             borderCapStyle: 'round',
-            fill: false,
+            backgroundColor: '#4bb77477',
+            fill: true,
           },
           {
             label: 'Energia kWh',
             data: [],
             borderWidth: 4,
-            borderColor: 'yellow',
-            backgroundColor: 'white',
+            borderColor: '#4550b562',
+            backgroundColor: '#9ba1d5',
             borderCapStyle: 'round',
-            fill: false,
           },
         ],
       },
@@ -119,6 +116,16 @@ export class DashboardTempoRealComponent implements OnInit {
         },
       },
     });
+  }
+
+  private addDataCharts(labels: string[], dataKw: number[], dataKwInMoney: any[]){
+    console.log(labels);
+    console.log(dataKw);
+    console.log(dataKwInMoney);
+    this.chartJS.data.datasets[0].data = dataKwInMoney
+    this.chartJS.data.datasets[1].data = dataKw
+    this.chartJS.data.labels = labels
+    this.chartJS.update()
   }
 
   ngOnDestroy(): void {

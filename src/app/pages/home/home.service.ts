@@ -14,14 +14,15 @@ import { io, Socket } from 'socket.io-client';
 export class DashboardService {
 
   private socket!: Socket;
+  consumptionsInKw: number[] = []
+  consumptionsInMoney: number[] = []
+  consumptionHouly: string[] = []
 
   constructor(
     private http: HttpClient,
     private storageService: StorageService,
 
-  ) {
-
-  }
+  ) {}
 
   get productsIdInStore(): Product[] {
     const products = JSON.parse(this.storageService.get('products') || '')
@@ -57,11 +58,17 @@ export class DashboardService {
   }
 
   public conect(): void {
-    const payload = {productId: this.productsIdInStore}
+    const payload = { productId: this.productsIdInStore }
 
     this.socket = io(`${enviremonet.API_URL}/products`)
     this.socket.on('connect', () => {
-      this.socket.emit('products:subscribe-consumptions', payload);
+      this.socket.emit('products:subscribe-consumptions', payload,
+      (consumptions: ConsumptionSokect[]) => {
+        for (let consumption of consumptions) {
+          this.mountPayload(consumption);
+        }
+        this.addDataChart()
+      });
     })
 
     this.socket.on('connect_error', (error) => {
@@ -77,8 +84,35 @@ export class DashboardService {
     });
   }
 
-  public desconect():void{
+  public desconect(): void {
     console.log('disconect');
     this.socket.disconnect()
   }
+
+
+private mountPayload(data: ConsumptionSokect ){
+  this.consumptionsInKw.push(data.kwm)
+  this.consumptionsInMoney.push(data.kwInMoney)
+
+  const hoursString = data.kwmDate.slice(11, 13)
+  const housNumber = Number(hoursString) - 3
+  const hoursRest = data.kwmDate.slice(14, 16)
+
+  this.consumptionHouly.push(
+    `${housNumber}:${hoursRest}`
+  )
+}
+
+addDataChart(): Observable<any>{
+  const allDataConsumptions = {
+    labels: this.consumptionHouly,
+    dataKw: this.consumptionsInKw,
+    dataMoney: this.consumptionsInMoney
+  }
+  return new Observable<any>((observer) => {
+    observer.next(allDataConsumptions)
+  })
+}
+
+
 }
