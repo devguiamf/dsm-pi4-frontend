@@ -2,108 +2,141 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { enviremonet } from 'src/enviremonents/enviromenents';
-import { Consumption, ConsumptionSokect } from 'src/shared/interfaces/consumptions.-interface';
+import {
+  Consumption,
+  ConsumptionSokect,
+} from 'src/shared/interfaces/consumptions.-interface';
 import { Product } from 'src/shared/interfaces/product-interface';
 import { StorageService } from 'src/util/storage.service';
 import { io, Socket } from 'socket.io-client';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DashboardService {
-
   private socket!: Socket;
-  consumptionsInKw: number[] = []
-  consumptionsInMoney: number[] = []
-  consumptionHouly: string[] = []
+  private _isConnected: boolean = false;
+  consumptionsInKw: number[] = [];
+  consumptionsInMoney: number[] = [];
+  consumptionHouly: string[] = [];
   dataSocket: Subject<any> = new Subject<any>();
 
   constructor(
     private http: HttpClient,
-    private storageService: StorageService,
-
+    private storageService: StorageService
   ) {}
 
   get productsIdInStore(): Product[] {
-    const products = JSON.parse(this.storageService.get('products') || '')
-    return products[0].id
+    const products = JSON.parse(this.storageService.get('products') || '');
+    return products[0].id;
   }
 
-  public getConsumptionDay(date: string, idProduct: number): Observable<Consumption> {
-    return this.http.get<Consumption>(`${enviremonet.API_URL}/products/${idProduct}/consumptions?type=hourly&date=${date}`, {
-      headers: {
-        'Authorization': `Bearer ${this.token}`
-      }
-    })
+  get isConnected(): boolean {
+    return this._isConnected;
   }
 
-  public getConsumptionMonth(date: string, idProduct: number): Observable<Consumption> {
-    return this.http.get<Consumption>(`${enviremonet.API_URL}/products/${idProduct}/consumptions?type=daily&date=${date}`, {
-      headers: {
-        'Authorization': `Bearer ${this.token}`
+  public getConsumptionDay(
+    date: string,
+    idProduct: number
+  ): Observable<Consumption> {
+    return this.http.get<Consumption>(
+      `${enviremonet.API_URL}/products/${idProduct}/consumptions?type=hourly&date=${date}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
       }
-    })
+    );
+  }
+
+  public getConsumptionMonth(
+    date: string,
+    idProduct: number
+  ): Observable<Consumption> {
+    return this.http.get<Consumption>(
+      `${enviremonet.API_URL}/products/${idProduct}/consumptions?type=daily&date=${date}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      }
+    );
   }
 
   public getProducts(): Observable<Product> {
     return this.http.get<Product>(`${enviremonet.API_URL}/products`, {
       headers: {
-        'Authorization': `Bearer ${this.token}`
-      }
-    })
+        Authorization: `Bearer ${this.token}`,
+      },
+    });
   }
 
   get token() {
-    return this.storageService.get('token')
+    return this.storageService.get('token');
   }
 
   public conect(): void {
-    const payload = { productId: this.productsIdInStore }
+    const payload = { productId: this.productsIdInStore };
 
-    this.socket = io(`${enviremonet.API_URL}/products`)
+    this.socket = io(`${enviremonet.API_URL}/products`);
     this.socket.on('connect', () => {
-      this.socket.emit('products:subscribe-consumptions', payload,
-      (consumptions: ConsumptionSokect[]) => {
-        this.consumptionsInKw, this.consumptionsInMoney, this.consumptionHouly = []
-        for (let i = consumptions.length - 1; i > 0; i--) {
-          this.mountPayload(consumptions[i]);
-        }
-        this.addDataChart()
-
+      this._isConnected = true;
+      this.socket.on('products:new-consumption', (consumption) => {
+        this.mountPayload({
+          ...consumption,
+          kwInMoney: consumption.kwmInMoney,
+        });
+        this.addDataChart();
       });
-    })
+
+      this.socket.emit(
+        'products:subscribe-consumptions',
+        payload,
+        (consumptions: ConsumptionSokect[]) => {
+          this.consumptionsInKw,
+            this.consumptionsInMoney,
+            (this.consumptionHouly = []);
+          for (let i = consumptions.length - 1; i > 0; i--) {
+            this.mountPayload(consumptions[i]);
+          }
+          this.addDataChart();
+        }
+      );
+    });
 
     this.socket.on('connect_error', (error) => {
-      console.error(error)
-    })
+      console.error(error);
+      this._isConnected = false;
+    });
+
+    this.socket.on('disconnect', (reason) => {
+      console.error('socket disconnected: ', reason);
+      this._isConnected = false;
+    });
   }
 
-  public desconect(): void {
-    this.socket.disconnect()
+  public disconnect(): void {
+    this._isConnected = false;
+    this.socket.disconnect();
   }
 
-private mountPayload(data: ConsumptionSokect ){
-  this.consumptionsInKw.push(data.kwm)
-  this.consumptionsInMoney.push(data.kwInMoney)
+  private mountPayload(data: ConsumptionSokect) {
+    this.consumptionsInKw.push(data.kwm);
+    this.consumptionsInMoney.push(data.kwInMoney);
 
-  const hoursString = data.kwmDate.slice(11, 13)
-  const housNumber = Number(hoursString) - 3
-  const hoursRest = data.kwmDate.slice(14, 16)
+    const hoursString = data.kwmDate.slice(11, 13);
+    const housNumber = Number(hoursString) - 3;
+    const hoursRest = data.kwmDate.slice(14, 16);
 
-  this.consumptionHouly.push(
-    `${housNumber}:${hoursRest}`
-  )
-}
-
-addDataChart(): void{
-  const allDataConsumptions = {
-    labels: this.consumptionHouly,
-    dataKw: this.consumptionsInKw,
-    dataMoney: this.consumptionsInMoney
+    this.consumptionHouly.push(`${housNumber}:${hoursRest}`);
   }
-  this.dataSocket.next(allDataConsumptions)
-}
 
-
+  addDataChart(): void {
+    const allDataConsumptions = {
+      labels: this.consumptionHouly,
+      dataKw: this.consumptionsInKw,
+      dataMoney: this.consumptionsInMoney,
+    };
+    this.dataSocket.next(allDataConsumptions);
+  }
 }

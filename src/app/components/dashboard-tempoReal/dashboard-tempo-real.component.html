@@ -1,6 +1,10 @@
 <body>
   <mat-card class="lines">
-    <h1>Consumo em tempo Real - Ultimos 30 minutos </h1>
-    <canvas #canva style="position: relative; width: 90vw; height:55vh"></canvas>
+    <h1>Consumo em tempo Real - Últimos 30 minutos </h1>
+    <div class="status-container">
+      <mat-icon [class.red-icon]="isConnected" [class.pulse-animation]="isConnected">fiber_manual_record</mat-icon>
+      <span class="status-text">{{isConnected ? 'Ao vivo' : 'Desconectado' }}</span>
+    </div>
+    <canvas #canva class="chart-canvas"></canvas>
   </mat-card>
 </body>
