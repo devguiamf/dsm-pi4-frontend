@@ -33,6 +33,7 @@ export class DashboardDiarioComponent implements OnInit {
   consumptions!: Consumption;
   avearag!: number;
   max!: number;
+  futureForecast!: number;
   standardDeviation!: number;
   stateButtonUpdate: boolean = false
   stateValuesConsumptions: boolean = true
@@ -40,14 +41,15 @@ export class DashboardDiarioComponent implements OnInit {
   total!: number[]
   energyCard: boolean = false
   moneyCard: boolean = false
-
-
+  dateInStorage!: string;
 
   typeConsumption!: string
   constructor(
     private storageService: StorageService,
     private initialPage: PaginaInicialComponent
-  ) {}
+  ) {
+    this.dateInStorage = JSON.stringify(this.storageService.get('dayliDateSelected'))
+  }
 
   ngOnInit(): void {
     this.initialPage.$consumptionsHourly.subscribe({
@@ -56,6 +58,8 @@ export class DashboardDiarioComponent implements OnInit {
         this.avearag = value.average;
         this.max = value.max;
         this.standardDeviation = value.standardDeviation;
+        this.futureForecast = value.forecast
+        this.dateInStorage = JSON.stringify(this.storageService.get('dayliDateSelected'))
         this.addDataInChart(value.data);
       }
     })
@@ -102,6 +106,15 @@ export class DashboardDiarioComponent implements OnInit {
 
   get consumptionsStorage() {
     return JSON.parse(this.storageService.get('dayliConsumprtions') || '{}')
+  }
+
+  get dateHourlyFromat(): boolean{
+    const year: number = new Date().getFullYear()
+    const month: number = new Date().getMonth() + 1
+    const day: number = new Date().getDate()
+    const monthFormated = month.toString().length == 1 ? `0${month}` : month
+    const completeDate = `${year}-${monthFormated}-${day}`
+    return completeDate == JSON.parse(this.dateInStorage || '') ? true: false
   }
 
   private initChartLines() {

@@ -47,47 +47,42 @@
         </div>
       </mat-card>
 
-      <mat-card id="media">
-      </mat-card>
     </div>
 
     <div class="charts3">
-      <mat-card id="media">
-        <div id="symbolMoney">
+      <mat-card id="media" *ngIf="dateHourlyFromat">
+        <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
+        <div *ngIf="!stateValuesConsumptions" id="symbolMoney">
           <img src="../../../assets/cifrao.png" alt="">
         </div>
 
-        <div class="values">
+        <div *ngIf="!stateValuesConsumptions" class="values">
           <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
           <div class="fixed" *ngIf="!stateValuesConsumptions">
             <h4>Previsão de gasto para proximo dia</h4>
-            <!-- <h3>R$ {{avearag | decimalCut }}</h3> -->
+            <h3>R$ {{ futureForecast | decimalCut }}</h3>
           </div>
         </div>
       </mat-card>
 
-      <mat-card id="media">
-        <div id="energySymbol">
-          <img src="../../../assets/raio.png" alt="">
+      <mat-card id="media" *ngIf="!dateHourlyFromat">
+        <div *ngIf="!stateValuesConsumptions" id="symbolMoney">
+          <img src="../../../assets/cifrao.png" alt="">
         </div>
 
-        <div class="values">
+        <div *ngIf="!stateValuesConsumptions" class="values">
           <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
           <div class="fixed" *ngIf="!stateValuesConsumptions">
-            <h4>Previsão de consumo para proximo dia</h4>
-            <!-- <h3>kWh {{avearag | decimalCut }}</h3> -->
+            <h4>Previsão de gasto para proximo dia <strong>INDISPONIVEL</strong></h4>
           </div>
         </div>
-      </mat-card>
-
-      <mat-card id="media">
       </mat-card>
     </div>
 
     <div class="charts2">
       <mat-card id="gastoTotal">
         <h2>Consumo Total</h2>
-        <canvas #canvaAllConsumption style="position: relative; width: 35vw; height:45vh; bottom: 0;"></canvas>
+        <canvas #canvaAllConsumption style="position: relative; width: 30vw; height:655vh; bottom: 0;"></canvas>
       </mat-card>
     </div>
 

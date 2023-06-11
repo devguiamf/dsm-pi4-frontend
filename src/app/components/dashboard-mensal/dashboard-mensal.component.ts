@@ -18,19 +18,21 @@ export class DashboardMensalComponent implements OnInit {
   @ViewChild('canva', { static: true }) element!: ElementRef;
   @ViewChild('canvaAllConsumption', { static: true }) element2!: ElementRef;
   chartJS!: Chart;
-  colorGradChart = '#DEDEDE'
-  chartJSBar!: any
+  colorGradChart = '#DEDEDE';
+  chartJSBar!: any;
   date!: Date;
   daysOfMonth: number;
   consumptions!: Consumption;
   avearag!: number;
   max!: number;
-    standardDeviation!: number;
-  stateButtonUpdate: boolean = false
-  stateValuesConsumptions: boolean = true
-  type!: string
-  energyCard: boolean = false
-  moneyCard: boolean = false
+  standardDeviation!: number;
+  stateButtonUpdate: boolean = false;
+  stateValuesConsumptions: boolean = true;
+  type!: string;
+  energyCard: boolean = false;
+  moneyCard: boolean = false;
+  dateInStorage!: string | null;
+  futureForecast!: number;
   types = {
     energy: { description: 'Energia - KW', value: '1', icon: 'electric_bolt', type: 'kHw' },
     money: { description: `Dinheiro - R$`, value: '2', icon: 'payments', type: 'R$' }
@@ -39,10 +41,12 @@ export class DashboardMensalComponent implements OnInit {
   typeConsumption: string = this.types.money.description;
 
   constructor(
-    private initialPage: PaginaInicialComponent
+    private initialPage: PaginaInicialComponent,
+    private storageService: StorageService
   ) {
     this.date = new Date()
     this.daysOfMonth = this.getAmountDaysNoMonths(this.date.getFullYear(), this.date.getMonth()+1)
+    this.dateInStorage = JSON.stringify(this.storageService.get('dateSelectedMonth'))
   }
 
   ngOnInit(): void {
@@ -51,7 +55,9 @@ export class DashboardMensalComponent implements OnInit {
         this.avearag = value.average;
         this.max = value.max;
         this.standardDeviation = value.standardDeviation;
+        this.futureForecast = value.forecast
         this.addDataInChart(value.data);
+        this.dateInStorage = JSON.stringify(this.storageService.get('dateSelectedMonth') || '')
         this.stateValuesConsumptions = false;
       }
     })
@@ -82,13 +88,28 @@ export class DashboardMensalComponent implements OnInit {
         this.stateValuesConsumptions = value
       }
     })
+
+    this.initialPage.$totalValuesConsumptions.subscribe({
+      next: (value: number[]) => {
+        this.chartJSBar.data.datasets[0].data = value
+        this.chartJSBar.update()
+      }
+    })
   }
-
-
 
   ngAfterContentInit(): void {
     this.initChartLines();
     this.initChartBar();
+  }
+
+  get dateIsToday(): boolean {
+    const year: number = new Date().getFullYear()
+    const month: number = new Date().getMonth() + 1
+    const day: number = this.date.getDate()
+    const monthFormated = month.toString().length == 1 ? `0${month}` : month
+    const completeDate = `${year}-${monthFormated}-${day}`
+
+    return completeDate == JSON.parse(this.dateInStorage || '') ? true : false
   }
 
   private initChartLines() {
@@ -150,7 +171,7 @@ export class DashboardMensalComponent implements OnInit {
         labels: ['Dinheiro R$','Energia kWh'],
         datasets: [
           {
-            data: [50,20],
+            data: [],
             borderWidth: 4,
             borderColor: ['#4bb774', '#4551B5'],
             backgroundColor: ['#4bb77477', '#4550b562'],
@@ -184,8 +205,6 @@ export class DashboardMensalComponent implements OnInit {
       },
     });
   }
-
-
 
   private addDataInChart(newData: any[]) {
     this.chartJS.data.datasets[0].data = newData

@@ -33,7 +33,8 @@ export class PaginaInicialComponent {
   msg!: string;
   period: number = new Date().getHours()
   date!: Date | string;
-  datetime!: Date | string;
+  datetimeHouly!: Date | string;
+  datetimeMonth!: Date | string;
   idProduct!: number;
   avearag!: number;
   max!: number;
@@ -75,8 +76,10 @@ export class PaginaInicialComponent {
   ) {
     this._adapter.setLocale('pt-BR');
     this.date = new Date()
-    this.datetime = new Date();
-    this.monthSelectes = this.datetime.getMonth() + 1;
+    this.datetimeHouly = new Date();
+    this.datetimeMonth = new Date();
+    this.StorageService.set('dayliDateSelected', this.formattedSelectedDataHourly)
+    this.monthSelectes = this.datetimeMonth.getMonth() + 1;
 
     if((this.StorageService.get('tabActive') || '') != ''){
       this.tabIndicator = this.StorageService.get('tabActive')
@@ -95,20 +98,20 @@ export class PaginaInicialComponent {
           this.idProduct = this.productsInStore[0].id
 
           if(this.tabIndicator =='hourly'){
-            this.getConsumptionsHourly(this.formattedSelectedData)
+            this.getConsumptionsHourly(this.formattedSelectedDataHourly)
           }
           if(this.tabIndicator == 'month') {
-            this.getConsumptionMonth(this.formattedSelectedData)
+            this.getConsumptionMonth(this.formattedSelectedDataMonth)
           }
         })
     } else {
       this.products = this.productsInStore
       this.idProduct = this.productsInStore[0].id
       if(this.tabIndicator == 'hourly'){
-        this.getConsumptionsHourly(this.formattedSelectedData)
+        this.getConsumptionsHourly(this.formattedSelectedDataHourly)
       }
       if(this.tabIndicator == 'month') {
-        this.getConsumptionMonth(this.formattedSelectedData)
+        this.getConsumptionMonth(this.formattedSelectedDataMonth)
       }
     }
 
@@ -127,8 +130,12 @@ export class PaginaInicialComponent {
     return this.StorageService.get('name')
   }
 
-  get formattedSelectedData() {
-    return formatDate(this.datetime, 'yyyy-MM-dd', 'en')
+  get formattedSelectedDataHourly() {
+    return formatDate(this.datetimeHouly, 'yyyy-MM-dd', 'en')
+  }
+
+  get formattedSelectedDataMonth() {
+    return formatDate(this.datetimeMonth, 'yyyy-MM-dd', 'en')
   }
 
   get dateSelectedInStorage() {
@@ -140,8 +147,7 @@ export class PaginaInicialComponent {
   }
 
   dateSelect(event: any) {
-    this.datetime = event.value
-
+    this.datetimeHouly = event.value
   }
 
   private mountMessage(): void {
@@ -183,6 +189,7 @@ export class PaginaInicialComponent {
           consumption.consumptionsInKw.total = sumKw
           consumption.consumptionsInMoney.total = sumMoney
 
+          consumption.consumptionsInMoney.forecast = consumption.consumptionsInKw.average * 0.9
 
           return consumption
         })
@@ -230,6 +237,7 @@ export class PaginaInicialComponent {
           });
           consumption.consumptionsInKw.total = sumKw
           consumption.consumptionsInMoney.total = sumMoney
+          consumption.consumptionsInMoney.forecast = consumption.consumptionsInKw.average * 0.9
           return consumption
         })
       )
@@ -292,25 +300,25 @@ export class PaginaInicialComponent {
 
   selectMonth(monthNumber: number){
     const year: number = new Date().getFullYear()
-    const day: number = new Date().getDay()
-    this.datetime = `${year}-${monthNumber}-${day}`
+    const day: number = new Date().getDate()
+    const monthFormated = monthNumber.toString().length == 1 ? `0${monthNumber}` : monthNumber
+    this.datetimeMonth = `${year}-${monthFormated}-${day}`
   }
 
   onClickUpdateData() {
+    this.StorageService.set('dateSelectedMonth', this.formattedSelectedDataMonth)
+    this.StorageService.set('dayliDateSelected', this.formattedSelectedDataHourly)
     this.stateButtonUpdate = true
-    if (!this.formattedSelectedData || this.formattedSelectedData.length == 0) return this.utilService.showError('Selecione uma data para buscar')
     this.tabIndicator = this.StorageService.get('tabActive')
-    if (this.formattedSelectedData) {
-      if(this.tabIndicator == 'hourly'){
-        this.stateButtonUpdate = true
-        this.getConsumptionsHourly(this.formattedSelectedData)
-        return
-      }
-      if(this.tabIndicator == 'month'){
-        this.stateButtonUpdate = true
-        this.getConsumptionMonth(this.formattedSelectedData)
-        return
-      }
+    if(this.tabIndicator == 'hourly'){
+      this.stateButtonUpdate = true
+      this.getConsumptionsHourly(this.formattedSelectedDataHourly)
+      return
+    }
+    if(this.tabIndicator == 'month'){
+      this.stateButtonUpdate = true
+      this.getConsumptionMonth(this.formattedSelectedDataMonth)
+      return
     }
   }
 
@@ -334,13 +342,14 @@ export class PaginaInicialComponent {
       }, 500);
 ;
     } else {
-      this.getConsumptionsHourly(this.formattedSelectedData)
+      this.getConsumptionsHourly(this.formattedSelectedDataHourly)
     }
   }
 
   onClickMonth() {
     this.tabs = 'month'
     this.StorageService.set('tabActive', 'month')
+    this.StorageService.set('dateSelectedMonth', this.formattedSelectedDataMonth)
     if (this.consumptionsMonthValues) {
       if(this.typeConsumption == this.types.energy.description){
         setTimeout(() => {
@@ -356,7 +365,7 @@ export class PaginaInicialComponent {
         this.$totalValuesConsumptions.next(this.totalMonthConsumptions)
       }, 500);
     } else {
-      this.getConsumptionMonth(this.formattedSelectedData)
+      this.getConsumptionMonth(this.formattedSelectedDataMonth)
     }
   }
 

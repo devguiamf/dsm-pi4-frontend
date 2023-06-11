@@ -6,6 +6,7 @@ export interface Consumption {
         total: number
         forecast: number
         standardDeviation: number
+        futureForecast: number
     },
 
     consumptionsInMoney: {
@@ -15,6 +16,7 @@ export interface Consumption {
         total: number
         forecast: number
         standardDeviation: number
+        futureForecast: number
     }
 }
 
