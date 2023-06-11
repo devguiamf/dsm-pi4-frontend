@@ -105,7 +105,7 @@ export class DashboardMensalComponent implements OnInit {
           {
             label: `${this.typeConsumption}`,
             data: [],
-            borderWidth: 4,
+            borderWidth: 6,
             borderColor: '#4bb774',
             borderCapStyle: 'round',
             backgroundColor: '#4bb77477',
@@ -130,12 +130,12 @@ export class DashboardMensalComponent implements OnInit {
         scales: {
           x: {
             grid: {
-              color: this.colorGradChart // Define a cor da grade do eixo X
+              color: this.colorGradChart
             }
           },
           y: {
             grid: {
-              color: this.colorGradChart // Define a cor da grade do eixo Y
+              color: this.colorGradChart
             }
           }
         }

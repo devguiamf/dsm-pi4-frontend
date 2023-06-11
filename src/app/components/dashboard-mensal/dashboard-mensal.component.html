@@ -40,7 +40,7 @@
 
         <div class="values">
           <div class="fixed ">
-            <h2 *ngIf="!stateValuesConsumptions">Maior gasto do dia</h2>
+            <h2 *ngIf="!stateValuesConsumptions">Maior gasto do mês</h2>
             <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
             <h3 *ngIf="!stateValuesConsumptions">{{type}}  {{max | decimalCut}}</h3>
           </div>
@@ -53,7 +53,7 @@
 
     <div class="charts2">
       <mat-card id="pf">
-        <h2>Previsão para póximo dia</h2>
+        <h2>Previsão para póximo mês</h2>
         <mat-card-content>
           <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
         </mat-card-content>

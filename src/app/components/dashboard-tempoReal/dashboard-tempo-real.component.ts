@@ -45,14 +45,12 @@ export class DashboardTempoRealComponent implements OnInit {
 
     this.pageInitial.$connetSocket.subscribe({
       next: (connection: boolean) => {
-        console.log(connection);
-        if (connection) this.conectSocket()
+        if (connection == true) return this.conectSocket()
       }
     })
 
-    this.dashService.addDataChart().subscribe({
+    this.dashService.dataSocket.subscribe({
       next: (consumptions: any) => {
-        // console.log(consumptions, 'SUBSCRIBE');
         setTimeout(() => {
           this.addDataCharts(consumptions.labels, consumptions.dataKw, consumptions.dataMoney)
         }, 1000);
@@ -94,8 +92,8 @@ export class DashboardTempoRealComponent implements OnInit {
             label: 'Energia kWh',
             data: [],
             borderWidth: 4,
-            borderColor: '#4550b562',
-            backgroundColor: '#9ba1d5',
+            borderColor: '#4551B5',
+            backgroundColor: '#4550b562',
             borderCapStyle: 'round',
           },
         ],
@@ -119,9 +117,7 @@ export class DashboardTempoRealComponent implements OnInit {
   }
 
   private addDataCharts(labels: string[], dataKw: number[], dataKwInMoney: any[]){
-    console.log(labels);
-    console.log(dataKw);
-    console.log(dataKwInMoney);
+
     this.chartJS.data.datasets[0].data = dataKwInMoney
     this.chartJS.data.datasets[1].data = dataKw
     this.chartJS.data.labels = labels

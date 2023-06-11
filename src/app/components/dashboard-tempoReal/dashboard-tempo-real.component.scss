@@ -2,12 +2,13 @@ body {
     height: 950px;
 
   .lines{
-
+    background-color: var(--body-card);
 
     h1{
+      font-size: 3em;
       text-align: center;
-      font-weight: bold;
       margin-top: 20px;
+      color: var(--body-text);
     }
   }
 }

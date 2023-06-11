@@ -26,8 +26,10 @@ export class DashboardDiarioComponent implements OnInit {
   @ViewChild('canva', { static: true }) element!: ElementRef;
   @ViewChild('canvaAllConsumption', { static: true }) element2!: ElementRef;
 
+  colorGradChart = '#DEDEDE'
   chartJS!: Chart;
   chartJSBar!: any;
+  ChartJSPie!: any
   consumptions!: Consumption;
   avearag!: number;
   max!: number;
@@ -101,6 +103,7 @@ export class DashboardDiarioComponent implements OnInit {
   get consumptionsStorage() {
     return JSON.parse(this.storageService.get('dayliConsumprtions') || '{}')
   }
+
   private initChartLines() {
     this.chartJS = new Chart(this.element.nativeElement, {
       type: 'line',
@@ -115,7 +118,7 @@ export class DashboardDiarioComponent implements OnInit {
           {
             label: `${this.typeConsumption}`,
             data: [],
-            borderWidth: 4,
+            borderWidth: 6,
             borderColor: '#4bb774',
             borderCapStyle: 'round',
             backgroundColor: '#4bb77477',
@@ -137,6 +140,18 @@ export class DashboardDiarioComponent implements OnInit {
             top: 20,
           },
         },
+        scales: {
+          x: {
+            grid: {
+              color: this.colorGradChart
+            }
+          },
+          y: {
+            grid: {
+              color: this.colorGradChart
+            }
+          }
+        }
       },
     });
   }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { enviremonet } from 'src/enviremonents/enviromenents';
 import { Consumption, ConsumptionSokect } from 'src/shared/interfaces/consumptions.-interface';
 import { Product } from 'src/shared/interfaces/product-interface';
@@ -17,6 +17,7 @@ export class DashboardService {
   consumptionsInKw: number[] = []
   consumptionsInMoney: number[] = []
   consumptionHouly: string[] = []
+  dataSocket: Subject<any> = new Subject<any>();
 
   constructor(
     private http: HttpClient,
@@ -64,10 +65,12 @@ export class DashboardService {
     this.socket.on('connect', () => {
       this.socket.emit('products:subscribe-consumptions', payload,
       (consumptions: ConsumptionSokect[]) => {
-        for (let consumption of consumptions) {
-          this.mountPayload(consumption);
+        this.consumptionsInKw, this.consumptionsInMoney, this.consumptionHouly = []
+        for (let i = consumptions.length - 1; i > 0; i--) {
+          this.mountPayload(consumptions[i]);
         }
         this.addDataChart()
+
       });
     })
 
@@ -76,19 +79,9 @@ export class DashboardService {
     })
   }
 
-  public getConsumptions(): Observable<ConsumptionSokect> {
-    return new Observable<any>((observer) => {
-      this.socket.on('products:new-consumption', (consumption: any) => {
-        observer.next(consumption)
-      });
-    });
-  }
-
   public desconect(): void {
-    console.log('disconect');
     this.socket.disconnect()
   }
-
 
 private mountPayload(data: ConsumptionSokect ){
   this.consumptionsInKw.push(data.kwm)
@@ -103,15 +96,13 @@ private mountPayload(data: ConsumptionSokect ){
   )
 }
 
-addDataChart(): Observable<any>{
+addDataChart(): void{
   const allDataConsumptions = {
     labels: this.consumptionHouly,
     dataKw: this.consumptionsInKw,
     dataMoney: this.consumptionsInMoney
   }
-  return new Observable<any>((observer) => {
-    observer.next(allDataConsumptions)
-  })
+  this.dataSocket.next(allDataConsumptions)
 }
 
 

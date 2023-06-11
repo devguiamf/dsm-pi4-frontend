@@ -59,12 +59,6 @@
         <mat-icon *ngIf="!stateButtonUpdate">update</mat-icon>
         <span *ngIf="!stateButtonUpdate">Atualizar</span>
       </button>
-
-      <button *ngIf="tabs == 'realtime'" (click)="onClickConnectRealtime()" [disabled]="stateButtonUpdate" mat-raised-button>
-        <mat-spinner *ngIf="stateButtonUpdate"></mat-spinner>
-        <mat-icon *ngIf="!stateButtonUpdate">update</mat-icon>
-        <span *ngIf="!stateButtonUpdate">Conectar</span>
-      </button>
     </div>
   </div>
 

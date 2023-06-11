@@ -45,7 +45,7 @@ export class PaginaInicialComponent {
   tabs!: string
   monthSelectes!: number
   types = {
-    energy: { description: 'Energia - KW',  icon: 'electric_bolt', type: 'kWh', borderColor: '#4550b562',  backgroundColor: '#9ba1d5'  },
+    energy: { description: 'Energia - KW',  icon: 'electric_bolt', type: 'kWh', borderColor: '#4551B5',  backgroundColor: '#4550b562'  },
     money: { description: `Dinheiro - R$`, icon: 'payments', type: 'R$', borderColor: '#4bb774',  backgroundColor: '#4bb77477' }
   }
   months = [
@@ -84,7 +84,7 @@ export class PaginaInicialComponent {
     }else{
       this.StorageService.set('tabActive', 'hourly')
       this.tabs = 'hourly'
-      this.tabIndicator = this.StorageService.get('tabActive')
+      this.tabIndicator = 'hourly'
     }
 
     if ((this.StorageService.get('products') || '').length == 0) {
@@ -93,7 +93,6 @@ export class PaginaInicialComponent {
           this.StorageService.set('products', JSON.stringify(products))
           this.products = this.productsInStore
           this.idProduct = this.productsInStore[0].id
-          console.log(this.tabIndicator, 'TABS');
 
           if(this.tabIndicator =='hourly'){
             this.getConsumptionsHourly(this.formattedSelectedData)
@@ -146,7 +145,6 @@ export class PaginaInicialComponent {
   }
 
   private mountMessage(): void {
-    console.log(this.period);
 
     if (this.period < 5 || this.period > 17) {
       this.msg = 'Boa Noite'
@@ -194,9 +192,6 @@ export class PaginaInicialComponent {
           this.totalHourlyConsumptions = []
           this.totalHourlyConsumptions.push(value.consumptionsInKw.total)
           this.totalHourlyConsumptions.push(value.consumptionsInMoney.total)
-
-          console.log(this.totalHourlyConsumptions), 'TOTAL HORAS';
-
           this.stateButtonUpdate = false
           this.consumptionsHourlyValues = value
 
@@ -215,7 +210,6 @@ export class PaginaInicialComponent {
 
   private getConsumptionMonth(date: string) {
     this.totalMonthConsumptions = []
-    console.log(date);
     this.$stateLoading.next(true)
     this.stateValuesConsumptions = true
     this.homeService.getConsumptionMonth(date, this.ProductId)
@@ -244,9 +238,6 @@ export class PaginaInicialComponent {
 
           this.totalMonthConsumptions.push(value.consumptionsInKw.total)
           this.totalMonthConsumptions.push(value.consumptionsInMoney.total)
-
-          console.log(this.totalMonthConsumptions, 'TOTAL MESES');
-
 
           this.stateButtonUpdate = false
           this.consumptionsMonthValues = value
@@ -372,7 +363,7 @@ export class PaginaInicialComponent {
   onClickRealtime() {
     this.tabs = 'realtime'
     this.StorageService.set('tabActive', 'realtime')
-    this.$stateLoading.next(true)
+    this.homeService.conect()
   }
 
   onClickConnectRealtime(){
