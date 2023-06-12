@@ -116,10 +116,10 @@ export class DashboardMensalComponent implements OnInit {
     this.chartJS = new Chart(this.element.nativeElement, {
       type: 'line',
       data: {
-        labels: Array.from({ length: 24 }, (_, i: number) => {
-          const hour = i + 1
-          const isTwoDigits = hour.toString().length > 1
-          const formattedHour = isTwoDigits ? `${hour}:00` : `0${hour}:00`
+        labels: Array.from({ length: this.daysOfMonth}, (_, i: number) => {
+          const day = i + 1
+          const isTwoDigits = day.toString().length > 1
+          const formattedHour = isTwoDigits ? `${day}` : `0${day}`
           return formattedHour
         }),
         datasets: [

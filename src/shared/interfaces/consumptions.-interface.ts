@@ -21,7 +21,7 @@ export interface Consumption {
 }
 
 export interface ConsumptionSokect{
-  kwmDate: string,
+  kwmDate: Date,
   kwm: number,
   kwInMoney: number
 }

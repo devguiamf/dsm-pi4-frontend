@@ -45,6 +45,8 @@ export class PaginaInicialComponent {
   stateValuesConsumptions: boolean = true
   tabs!: string
   monthSelectes!: number
+  todayNumber: number = new Date().getMonth()
+  currentTime: number = new Date().getHours()
   types = {
     energy: { description: 'Energia - KW',  icon: 'electric_bolt', type: 'kWh', borderColor: '#4551B5',  backgroundColor: '#4550b562'  },
     money: { description: `Dinheiro - R$`, icon: 'payments', type: 'R$', borderColor: '#4bb774',  backgroundColor: '#4bb77477' }

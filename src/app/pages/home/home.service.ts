@@ -9,9 +9,12 @@ import {
 import { Product } from 'src/shared/interfaces/product-interface';
 import { StorageService } from 'src/util/storage.service';
 import { io, Socket } from 'socket.io-client';
+import { formatDate } from '@angular/common';
+import { LOCALE_ID } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
+
 })
 export class DashboardService {
   private socket!: Socket;
@@ -82,10 +85,7 @@ export class DashboardService {
     this.socket.on('connect', () => {
       this._isConnected = true;
       this.socket.on('products:new-consumption', (consumption) => {
-        this.mountPayload({
-          ...consumption,
-          kwInMoney: consumption.kwmInMoney,
-        });
+        this.mountPayload(consumption);
         this.addDataChart();
       });
 
@@ -123,12 +123,8 @@ export class DashboardService {
   private mountPayload(data: ConsumptionSokect) {
     this.consumptionsInKw.push(data.kwm);
     this.consumptionsInMoney.push(data.kwInMoney);
-
-    const hoursString = data.kwmDate.slice(11, 13);
-    const housNumber = Number(hoursString) - 3;
-    const hoursRest = data.kwmDate.slice(14, 16);
-
-    this.consumptionHouly.push(`${housNumber}:${hoursRest}`);
+    const hoursString = formatDate(data.kwmDate, 'hh:mm', 'en')
+    this.consumptionHouly.push(hoursString);
   }
 
   addDataChart(): void {
