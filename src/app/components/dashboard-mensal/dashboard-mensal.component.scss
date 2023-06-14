@@ -61,7 +61,7 @@ body {
     }
     .charts2 {
       width: 38%;
-      height: 240px;
+      height: 250px;
       #gastoTotal {
         width: 100%;
         height: 98%;
@@ -72,6 +72,7 @@ body {
   .lines {
     height: 74vh;
     background-color: var(--body-card);
+    margin-top: 30px;
     h1 {
       font-size: 3em;
       text-align: center;
