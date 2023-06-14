@@ -25,25 +25,24 @@ export class DashboardDiarioComponent implements OnInit {
 
   @ViewChild('canva', { static: true }) element!: ElementRef;
   @ViewChild('canvaAllConsumption', { static: true }) element2!: ElementRef;
-
   colorGradChart = '#DEDEDE'
   chartJS!: Chart;
   chartJSBar!: any;
-  ChartJSPie!: any
+  ChartJSPie!: any;
   consumptions!: Consumption;
   avearag!: number;
   max!: number;
   futureForecast!: number;
   standardDeviation!: number;
-  stateButtonUpdate: boolean = false
-  stateValuesConsumptions: boolean = true
-  type!: string
-  total!: number[]
-  energyCard: boolean = false
-  moneyCard: boolean = false
+  stateButtonUpdate: boolean = false;
+  stateValuesConsumptions: boolean = true;
+  type!: string;
+  total!: number[];
+  energyCard: boolean = false;
+  moneyCard: boolean = false;
   dateInStorage!: string;
-
-  typeConsumption!: string
+  typeConsumption!: string;
+  
   constructor(
     private storageService: StorageService,
     private initialPage: PaginaInicialComponent

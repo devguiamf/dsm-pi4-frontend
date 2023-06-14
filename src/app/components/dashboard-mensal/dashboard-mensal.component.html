@@ -8,7 +8,7 @@
 
       <mat-card id="media">
         <div *ngIf="moneyCard === true" id="symbolMoney">
-          <img src="../../../assets/cifrao.png" alt="">
+          <img src="../../../assets/dollar.png" alt="">
         </div>
 
         <div *ngIf="energyCard === true" id="energySymbol">
@@ -31,7 +31,7 @@
       <mat-card id="media">
 
         <div *ngIf="moneyCard === true" id="symbolMoney">
-          <img src="../../../assets/cifrao.png" alt="">
+          <img src="../../../assets/dollar.png" alt="">
         </div>
 
         <div *ngIf="energyCard === true" id="energySymbol">
@@ -53,7 +53,7 @@
       <mat-card id="media" *ngIf="dateIsToday">
         <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
         <div *ngIf="!stateValuesConsumptions" id="symbolMoney">
-          <img src="../../../assets/cifrao.png" alt="">
+          <img src="../../../assets/dollar.png" alt="">
         </div>
 
         <div *ngIf="!stateValuesConsumptions" class="values">
@@ -67,7 +67,7 @@
 
       <mat-card id="media" *ngIf="!dateIsToday">
         <div *ngIf="!stateValuesConsumptions" id="symbolMoney">
-          <img src="../../../assets/cifrao.png" alt="">
+          <img src="../../../assets/dollar.png" alt="">
         </div>
 
         <div *ngIf="!stateValuesConsumptions" class="values">

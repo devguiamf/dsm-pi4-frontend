@@ -154,15 +154,15 @@ export class PaginaInicialComponent {
 
   private mountMessage(): void {
 
-    if (this.period < 5 || this.period > 17) {
+    if (this.period <= 5 || this.period > 16) {
       this.msg = 'Boa Noite'
        return
     }
-    if (this.period > 5 && this.period < 12) {
+    if (this.period > 5 && this.period <= 12) {
       this.msg = 'Bom Dia'
       return
     }
-    if (this.period > 12 && this.period < 17) {
+    if (this.period > 12 && this.period <= 16) {
       this.msg = 'Boa Tarde'
       return
     }
@@ -245,6 +245,7 @@ export class PaginaInicialComponent {
       )
       .subscribe({
         next: (value: Consumption) => {
+          console.log(value);
 
           this.totalMonthConsumptions.push(value.consumptionsInKw.total)
           this.totalMonthConsumptions.push(value.consumptionsInMoney.total)
@@ -325,6 +326,7 @@ export class PaginaInicialComponent {
   }
 
   onClickHourly() {
+    this.StorageService.set('dayliDateSelected', formatDate(this.date, 'yyyy-MM-dd', 'en'))
     this.tabs = 'hourly'
     this.StorageService.set('tabActive', 'hourly')
 

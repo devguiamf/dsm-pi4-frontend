@@ -1,5 +1,18 @@
+body{
+  height: 500px;
+}
+
 .lines {
-  padding: 20px;
+  height: 74vh;
+  background-color: var(--body-card);
+  // margin-top: -150px;
+  h1 {
+    font-size: 3em;
+    text-align: center;
+    margin-top: 20px;
+    color: var(--body-text);
+    font-family: var(--font);
+  }
 }
 
 h1 {

@@ -5,6 +5,6 @@
       <mat-icon [class.red-icon]="isConnected" [class.pulse-animation]="isConnected">fiber_manual_record</mat-icon>
       <span class="status-text">{{isConnected ? 'Ao vivo' : 'Desconectado' }}</span>
     </div>
-    <canvas #canva class="chart-canvas"></canvas>
+    <canvas #canva class="chart-canvas" style="position: relative; width: 90vw; height:65vh"></canvas>
   </mat-card>
 </body>
