@@ -54,7 +54,7 @@
         </mat-select>
       </mat-form-field>
 
-      <button *ngIf="tabs == 'hourly' || tabs === 'month'" (click)="onClickUpdateData()" [disabled]="stateButtonUpdate" mat-raised-button>
+      <button class="button" *ngIf="tabs == 'hourly' || tabs === 'month'" (click)="onClickUpdateData()" [disabled]="stateButtonUpdate" color="primary" mat-raised-button>
         <mat-spinner *ngIf="stateButtonUpdate"></mat-spinner>
         <mat-icon *ngIf="!stateButtonUpdate">update</mat-icon>
         <span *ngIf="!stateButtonUpdate">Atualizar</span>

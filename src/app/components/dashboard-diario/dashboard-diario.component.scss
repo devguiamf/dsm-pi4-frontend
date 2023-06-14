@@ -1,60 +1,26 @@
 body {
-  height: 800px;
-
-  .card1 {
-    display: flex;
-    justify-content: center;
-
-    div {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      margin-bottom: 3vh;
-      width: 70vw;
-      height: 100px;
-
-      button {
-        height: 50px;
-        width: 130px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: -21px;
-
-        mat-spinner {
-          scale: 0.28;
-          margin-top: 10px;
-        }
-      }
-    }
-  }
-
+  height: 1000px;
   .cards {
     display: flex;
     justify-content: space-evenly;
-
     mat-card {
       background-color: var(--body-card);
       color: var(--body-text);
     }
-
-    .charts1 {
+    .charts1,
+    .charts3 {
       width: 30%;
       height: 240px;
-      display: flex;
-      flex-direction: column;
-
       #media {
-        width: 100%;
-        height: 95%;
+        height: 50%;
         margin-bottom: 5px;
         display: flex;
         align-items: center;
         flex-direction: row;
+        text-align: center;
         border-top-left-radius: 12px;
         border-bottom-left-radius: 12px;
-
-        #symbolMoney {
+        #symbolMoney, #energySymbol {
           margin-right: 50px;
           background-color: var(--primary-chart-grey);
           width: 30%;
@@ -64,240 +30,45 @@ body {
           justify-content: center;
           border-top-left-radius: 12px;
           border-bottom-left-radius: 12px;
-
           img {
             width: 50px;
           }
         }
-
         #energySymbol {
-          margin-right: 50px;
           background-color: var(--cardSymbolEnergy);
-          width: 30%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-top-left-radius: 12px;
-          border-bottom-left-radius: 12px;
-
-          img {
-            width: 50px;
-          }
         }
-
         .values {
           display: flex;
           justify-content: center;
           height: 100%;
-
           .fixed {
             height: 100%;
-            h2 {
-              font-weight: bolder;
-              font-family: var(--font);
-            }
-
             h3 {
-              font-family: var(--font);
               font-size: 2em;
             }
           }
-
           .standardDeviation {
             height: 100%;
             margin-left: -35px;
-
-            #negative {
-              color: red;
-              font-weight: bold;
-              font-family: var(--font);
-            }
-
             #positive {
               color: green;
               margin-top: 60%;
               font-weight: bold;
-              font-family: var(--font);
             }
-          }
-
-          mat-spinner {
-            scale: 0.5;
           }
         }
       }
     }
-
     .charts2 {
       width: 38%;
       height: 240px;
-      display: flex;
-
-      #pf {
-        width: 100%;
-        height: 90%;
-        padding: 5px 0px 0px 15px;
-        margin-right: 5px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-
-        h2 {
-          font-weight: bolder;
-          font-family: var(--font);
-        }
-
-        .money {
-          margin: 0px;
-          padding: 0px;
-          height: 30%;
-
-          #symbolMoney {
-            margin-right: 50px;
-            background-color: var(--primary-chart-grey);
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-top-left-radius: 12px;
-            border-bottom-left-radius: 12px;
-
-            img {
-              width: 50px;
-            }
-          }
-        }
-        .energy {
-          margin: 0px;
-          padding: 0px;
-          height: 30%;
-
-          #energySymbol {
-            margin-right: 50px;
-            background-color: var(--cardSymbolEnergy);
-            width: 95%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-
-            img {
-              width: 50px;
-            }
-          }
-        }
-      }
-
       #gastoTotal {
         width: 100%;
         height: 98%;
-        padding: 5px 0px 0px 15px;
-        margin-right: 5px;
-
-        h2 {
-          font-weight: bolder;
-          font-family: var(--font);
-        }
-
-        mat-card-content {
-          display: flex;
-          justify-content: center;
-          margin-top: -20px;
-
-          mat-spinner {
-            scale: 0.5;
-          }
-        }
-      }
-    }
-
-    .charts3 {
-      width: 30%;
-      height: 120px;
-      display: flex;
-      flex-direction: column;
-
-      #media {
-        width: 100%;
-        height: 95%;
-        margin-bottom: 5px;
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        border-top-left-radius: 12px;
-        border-bottom-left-radius: 12px;
-
-        strong{
-          color: red;
-        }
-
-        mat-spinner {
-          scale: 0.5;
-        }
-
-        #symbolMoney {
-          background-color: var(--primary-chart-grey);
-          width: 30%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-top-left-radius: 12px;
-          border-bottom-left-radius: 12px;
-
-          img {
-            width: 50px;
-          }
-        }
-
-        #energySymbol {
-          background-color: var(--cardSymbolEnergy);
-          width: 30%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-top-left-radius: 12px;
-          border-bottom-left-radius: 12px;
-
-          img {
-            width: 50px;
-          }
-        }
-
-        .values {
-          display: flex;
-          justify-content: center;
-          height: 100%;
-          width: 100%;
-
-          .fixed {
-            height: 100%;
-            width: 100%;
-            h4 {
-              font-weight: bolder;
-              font-family: var(--font);
-              text-align: center;
-            }
-
-            h3 {
-              font-family: var(--font);
-              font-size: 2em;
-              text-align: center;
-            }
-          }
-
-          mat-spinner {
-            scale: 0.5;
-          }
-        }
+        padding: 5px 0px 0px 5px;
       }
     }
   }
-
   .lines {
     height: 74vh;
     background-color: var(--body-card);
@@ -306,7 +77,13 @@ body {
       text-align: center;
       margin-top: 20px;
       color: var(--body-text);
-      font-family: var(--font);
     }
   }
+}
+h2,
+h4 {
+  font-weight: bolder;
+}
+strong, #negative {
+  color: red;
 }

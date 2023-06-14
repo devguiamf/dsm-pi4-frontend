@@ -1,161 +1,52 @@
-.body{
-  .wellcome{
-    color: var(--text-primary);
-    font-family: var(--font);
-    font-weight: bold;
-  }
-
-
-  .headerFixed{
-
-    .tabHearder{
-      width: 30% ;
-      height: 3em;
-      background-color: var(--body-card) ;
-      display: flex;
-      justify-content: space-evenly;
-      border-radius: 50px;
-      background-color: #fff;
-
-
-      .activeTabsDay{
-        background-color: var(--primary);
-        border: none;
-        color: #FFF;
-        border: solid 1px var(--primary);
-        width: 100%;
-        height: 100%;
-        font-family: var(--font);
-      }
-
-      .tabs{
-        width: 100%;
-        height: 100%;
-        border-radius: 20px;
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        text-align: center;
-        font-family: var(--font);
-
-      }
-    }
-
-    .tabs:hover{
-      color: #3f51b5;
-      cursor: pointer;
-      font-family: var(--font);
-    }
-
-    .selections{
-      margin-top: 20px;
-      display: inline-block;
-      justify-content: flex-start;
-      align-items: center;
-      height: auto;
-
-      mat-form-field{
-        margin-right: 10px;
-
-        mat-label{
-          font-family: var(--font);
-        }
-      }
-
-      button {
-        margin-top: -18px;
-        height: 50px;
-        background-color: var(--primary);
-        color: #FFF;
-        font-family: var(--font);
-
-        mat-spinner{
-          scale: 0.30;
-        }
-      }
-    }
-  }
-
-
-
+.selections{
+  margin-top: 20px;
+  display: inline-block;
+  justify-content: flex-start;
+  align-items: center;
+  height: auto;
 }
-
-
-
-// .cards {
-//     display: flex;
-//     flex-wrap: wrap;
-//     justify-content: space-around;
-//     margin-top: 50px;
-
-//     mat-card {
-//         width: 30%;
-//         display: flex;
-//         flex-direction: column;
-//         align-items: center;
-//         justify-content: space-between;
-//         padding: 10px;
-//         cursor: pointer;
-//         transition: 500ms;
-
-//         mat-icon {
-//             margin-top: 50px;
-//             scale: 3;
-//         }
-
-//         h1{
-//             margin-top: 50px;
-//             font-weight: bold
-//             ;
-//         }
-//         p{
-//             margin-bottom: 20px;
-//             text-align: center;
-//         }
-//     }
-
-//     mat-card:hover {
-//         scale: 1.08;
-//         -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
-//         -moz-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
-//         box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
-//     }
-// }
-
-// .texto{
-//     display: flex;
-//     flex-direction: column;
-
-//     .titulo{
-//       padding-left: 20px;
-//         mat-card{
-//             background-color: #3f51b5;
-//             display: flex;
-//             justify-content: center;
-//             align-items: center;
-//             width: 30%;
-
-//             h1{
-//                 text-align: center;
-//                 color: white;
-//                 align-items: center;
-//                 margin-top: 15px;
-//             }
-//         }
-//     }
-
-//     .paragrafos{
-//         margin-top: 100px;
-//         margin-bottom: -50px;
-//         text-align: center;
-//         display: flex;
-//         justify-content: space-around;
-
-//         div{
-//             width: 30%;
-//             p{
-//                 font-weight: bold;
-//             }
-//         }
-//     }
-// }
+mat-form-field{
+  margin-right: 10px;
+}
+.tabs:hover{
+  color: #3f51b5;
+  cursor: pointer;
+}
+.tabHearder{
+  width: 30% ;
+  height: 3em;
+  background-color: var(--body-card) ;
+  display: flex;
+  justify-content: space-evenly;
+  border-radius: 50px;
+  background-color: #fff;
+}
+.activeTabsDay{
+  background-color: var(--primary);
+  border: none;
+  color: #FFF;
+  border: solid 1px var(--primary);
+  width: 100%;
+  height: 100%;
+}
+.tabs{
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: center;
+}
+mat-spinner{
+  scale: 0.30;
+}
+.wellcome{
+  color: var(--text-primary);
+  font-weight: bold;
+}
+.button{
+  margin-top: -18px;
+  height: 50px;
+  color: #FFF;
+}

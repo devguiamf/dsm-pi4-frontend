@@ -1,8 +1,4 @@
 <body>
-  <div class="card1">
-
-  </div>
-
   <div class="cards">
     <div class="charts1">
 
@@ -57,7 +53,6 @@
         </div>
 
         <div *ngIf="!stateValuesConsumptions" class="values">
-          <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
           <div class="fixed" *ngIf="!stateValuesConsumptions">
             <h4>Previsão de gasto para proximo dia</h4>
             <h3>R$ {{ futureForecast | decimalCut }}</h3>

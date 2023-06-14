@@ -57,7 +57,6 @@
         </div>
 
         <div *ngIf="!stateValuesConsumptions" class="values">
-          <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
           <div class="fixed" *ngIf="!stateValuesConsumptions">
             <h4>Previsão de gasto para proximo dia</h4>
             <h3>R$ {{ futureForecast | decimalCut }}</h3>
@@ -73,7 +72,7 @@
         <div *ngIf="!stateValuesConsumptions" class="values">
           <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
           <div class="fixed" *ngIf="!stateValuesConsumptions">
-            <h4>Previsão de gasto para proximo mês <strong>INDISPONIVEL</strong></h4>
+            <h4>Previsão de gasto para proximo dia <strong>INDISPONIVEL</strong></h4>
           </div>
         </div>
       </mat-card>

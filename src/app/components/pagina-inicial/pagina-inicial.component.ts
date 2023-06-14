@@ -331,6 +331,8 @@ export class PaginaInicialComponent {
     this.StorageService.set('tabActive', 'hourly')
 
     if (this.consumptionsHourlyValues) {
+      console.log(this.consumptionsHourlyValues);
+
       if(this.typeConsumption == this.types.energy.description){
           setTimeout(() => {
             this.type.next(this.types.energy)
