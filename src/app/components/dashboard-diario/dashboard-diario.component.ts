@@ -42,12 +42,26 @@ export class DashboardDiarioComponent implements OnInit {
   moneyCard: boolean = false;
   dateInStorage!: string;
   typeConsumption!: string;
-  
+  tomorrow!: string
+
   constructor(
     private storageService: StorageService,
     private initialPage: PaginaInicialComponent
   ) {
     this.dateInStorage = JSON.stringify(this.storageService.get('dayliDateSelected'))
+    this.mountDateTomorrow()
+  }
+
+  mountDateTomorrow(){
+    let month
+    const tomorrow = new Date().getDate() + 1
+    let getmonth = new Date().getMonth() + 1
+    if(getmonth.toString().length === 1){
+      month = `0${getmonth}`
+    }
+
+
+    this.tomorrow = `${tomorrow}/${month}`
   }
 
   ngOnInit(): void {
@@ -123,7 +137,7 @@ export class DashboardDiarioComponent implements OnInit {
         labels: Array.from({ length: 24 }, (_, i: number) => {
           const hour = i
           const isTwoDigits = hour.toString().length > 1
-          const formattedHour = isTwoDigits ? `${hour}:00` : `0${hour}:00`
+          const formattedHour = isTwoDigits ? `${hour}:00hr` : `0${hour}:00hr`
           return formattedHour
         }),
         datasets: [

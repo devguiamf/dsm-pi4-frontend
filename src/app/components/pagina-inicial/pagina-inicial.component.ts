@@ -191,7 +191,7 @@ export class PaginaInicialComponent {
           consumption.consumptionsInKw.total = sumKw
           consumption.consumptionsInMoney.total = sumMoney
 
-          consumption.consumptionsInMoney.forecast = consumption.consumptionsInKw.average * 0.9
+          consumption.consumptionsInMoney.forecast = 5.1 * 0.9
 
           return consumption
         })
@@ -239,7 +239,7 @@ export class PaginaInicialComponent {
           });
           consumption.consumptionsInKw.total = sumKw
           consumption.consumptionsInMoney.total = sumMoney
-          consumption.consumptionsInMoney.forecast = consumption.consumptionsInKw.average * 0.9
+          consumption.consumptionsInMoney.forecast = 82 * 0.9
           return consumption
         })
       )

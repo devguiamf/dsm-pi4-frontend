@@ -50,7 +50,7 @@
     </div>
 
     <div class="charts3">
-      <mat-card id="media" *ngIf="dateIsToday">
+      <mat-card id="media">
         <mat-spinner *ngIf="stateValuesConsumptions"></mat-spinner>
         <div *ngIf="!stateValuesConsumptions" id="symbolMoney">
           <img src="../../../assets/dollar.png" alt="">
@@ -58,13 +58,13 @@
 
         <div *ngIf="!stateValuesConsumptions" class="values">
           <div class="fixed" *ngIf="!stateValuesConsumptions">
-            <h4>Previsão de gasto para proximo dia</h4>
+            <h4>Previsão de gasto para mês de {{nextMonth}}</h4>
             <h3>R$ {{ futureForecast | decimalCut }}</h3>
           </div>
         </div>
       </mat-card>
 
-      <mat-card id="media" *ngIf="!dateIsToday">
+      <!-- <mat-card id="media" *ngIf="!dateIsToday">
         <div *ngIf="!stateValuesConsumptions" id="symbolMoney">
           <img src="../../../assets/dollar.png" alt="">
         </div>
@@ -75,7 +75,7 @@
             <h4>Previsão de gasto para proximo dia <strong>INDISPONIVEL</strong></h4>
           </div>
         </div>
-      </mat-card>
+      </mat-card> -->
     </div>
 
     <div class="charts2">

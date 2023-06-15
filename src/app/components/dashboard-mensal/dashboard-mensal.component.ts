@@ -1,9 +1,11 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 import Chart from 'chart.js/auto';
-import { Consumption, Types, TypesChartOptions } from 'src/shared/interfaces/consumptions.-interface';
+import { Consumption, TypesChartOptions } from 'src/shared/interfaces/consumptions.-interface';
 import { StorageService } from 'src/util/storage.service';
 import { PaginaInicialComponent } from '../pagina-inicial/pagina-inicial.component';
+import { format, getMonth } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 @Component({
   selector: 'app-dashboard-mensal',
@@ -37,6 +39,7 @@ export class DashboardMensalComponent implements OnInit {
     energy: { description: 'Energia - KW', value: '1', icon: 'electric_bolt', type: 'kHw' },
     money: { description: `Dinheiro - R$`, value: '2', icon: 'payments', type: 'R$' }
   }
+  nextMonth!: string
 
   typeConsumption: string = this.types.money.description;
 
@@ -47,6 +50,7 @@ export class DashboardMensalComponent implements OnInit {
     this.date = new Date()
     this.daysOfMonth = this.getAmountDaysNoMonths(this.date.getFullYear(), this.date.getMonth()+1)
     this.dateInStorage = JSON.stringify(this.storageService.get('dateSelectedMonth'))
+    this.getNextMonth()
   }
 
   ngOnInit(): void {
@@ -102,6 +106,11 @@ export class DashboardMensalComponent implements OnInit {
     this.initChartBar();
   }
 
+  private getNextMonth(){
+    const currentDate = new Date();
+    this.nextMonth = format(currentDate, 'MMMM', { locale: ptBR });
+  }
+
   get dateIsToday(): boolean {
     const year: number = new Date().getFullYear()
     const month: number = new Date().getMonth() + 1
@@ -119,7 +128,7 @@ export class DashboardMensalComponent implements OnInit {
         labels: Array.from({ length: this.daysOfMonth}, (_, i: number) => {
           const day = i + 1
           const isTwoDigits = day.toString().length > 1
-          const formattedHour = isTwoDigits ? `${day}` : `0${day}`
+          const formattedHour = isTwoDigits ? `Dia ${day}` : `Dia 0${day}`
           return formattedHour
         }),
         datasets: [
